@@ -68,8 +68,10 @@ export default {
         if (userProfile) {
             this.$store.commit(LOGIN_SUCCESS, userProfile);
 
-            this.$router.push("/profile");
 
+            if (this.$route.path === "/login") {
+                this.$router.push("/");
+            }
 
             firestore.collection('users').doc(userProfile.uid).set({
                 createdAt: new Date(),

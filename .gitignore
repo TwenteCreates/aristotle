@@ -97,3 +97,5 @@ coverage.xml
 
 # Translations
 *.mo
+
+api/db.sqlite3

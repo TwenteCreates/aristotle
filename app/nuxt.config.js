@@ -59,7 +59,17 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
-  }
+  },
+    env: {
+        firebaseConfig: {
+            apiKey: "AIzaSyBl76MZk1_KBU0oFrR57vRLdMnCYRZKaHk",
+            authDomain: "aristotle-beta.firebaseapp.com",
+            databaseURL: "https://aristotle-beta.firebaseio.com",
+            projectId: "aristotle-beta",
+            storageBucket: "",
+            messagingSenderId: "759606146433"
+        },
+    }
 }

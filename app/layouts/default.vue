@@ -9,7 +9,7 @@ import firestore from "@/services/firestore";
 import loadJs from "loadjs";
 
 import { LOGIN_SUCCESS } from '@/store/user';
-export default {
+const defaultLayout = {
   mounted() {
       window.a11ySettings = window.a11ySettings || {};
 		// window.a11ySettings.display = "none";
@@ -34,7 +34,9 @@ export default {
                 lastSignInTime: userProfile.metadata.lastSignInTime,
                 name: userProfile.displayName,
                 email: userProfile.email,
-                photoUrl: userProfile.photoURL
+                photoUrl: userProfile.photoURL,
+                role: 'student',
+            points: 0
             }, { merge: true });
         } else {
             this.$router.push("/login");
@@ -55,6 +57,8 @@ export default {
     }
   }
 }
+
+export default defaultLayout;
 </script>
 
 

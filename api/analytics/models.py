@@ -43,6 +43,27 @@ YESNO = (
         (1, "yes"),
         )
 
+CONCEPT_RELATION_LEVELS = (
+        (-1, "lower"),
+        (0, "same"),
+        (1, "higher")
+    )
+
+CATEGORIES = (
+        (0, "Engels"),
+        (1, "Nederlands"),
+        (2, "Wiskunde"),
+        (3, "Aardrijkskunde"),
+        (4, "Geschiedenis"),
+        )
+
+def get_value(choice_tuple, key):
+    for k, v in choice_tuple:
+        if key == k:
+            return v
+    raise Exception("key not found")
+
+
 class Pupil(models.Model):
     student_end_6th_year = models.IntegerField(null=True)
     student_end_9th_year = models.IntegerField(null=True)
@@ -63,7 +84,7 @@ class Pupil(models.Model):
     secondary_school_location = models.IntegerField(null=True)
     region = models.IntegerField(choices=REGIONS, null=True)
     iq_6th = models.IntegerField(null=True) # sumscore ?
-    iq_9th = models.FloatField(blank=True) # standardized
+    iq_9th = models.FloatField(null=True) # standardized
     dutch_language_test_9th = models.FloatField(null=True)
     math_test_9th = models.FloatField(null=True)
     school_motivation_score = models.FloatField(null=True)
@@ -74,3 +95,35 @@ class Pupil(models.Model):
     parent_support_professional = models.IntegerField(choices=SUPPORT_LEVELS, null=True)
     ever_registered_as_school_drop_out = models.BooleanField(choices=YESNO, null=True)
     family_both_parents = models.BooleanField(choices=YESNO, null=True)
+
+class Concept(models.Model):
+    name = models.CharField(max_length=200)
+    video = models.CharField(max_length=20)
+    image = models.URLField()
+    summary = models.TextField()
+    question = models.CharField(max_length=200)
+    answer0 = models.CharField(max_length=200)
+    answer1 = models.CharField(max_length=200)
+    answer2 = models.CharField(max_length=200)
+    answer3 = models.CharField(max_length=200)
+    correct_answer = models.IntegerField()
+    related = models.ManyToManyField('self', symmetrical=False, through='ConceptRelation')
+    category = models.IntegerField(choices=CATEGORIES)
+
+    def get_related_concepts(self):
+        return ConceptRelation.objects.filter(to_concept=self)
+
+    def __str__(self):
+        return self.name
+
+class ConceptRelation(models.Model):
+    """
+    How the from concept related to the to concept
+    """
+    from_concept = models.ForeignKey(Concept, related_name='from_concept', on_delete=models.CASCADE)
+    to_concept = models.ForeignKey(Concept, related_name='to_concept', on_delete=models.CASCADE)
+    level = models.IntegerField(choices=CONCEPT_RELATION_LEVELS)
+
+    def __str__(self):
+        return "%s relation from %s to %s" % (get_value(CONCEPT_RELATION_LEVELS, self.level), self.from_concept, self.to_concept)
+

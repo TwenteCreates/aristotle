@@ -20,13 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'tvzg%ezj0prf=7)&x%_abyp=a^2d*rn=6*2-x1gq5t075hkw9y'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'tvzg%ezj0prf=7)&x%_abyp=a^2d*rn=6*2-x1gq5t075hkw9y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get('DEBUG', default='False') == 'True' else False
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [os.environ.get('HOST', 'hackathon.anandchowdhary.com')]
 
 # Application definition
 
@@ -38,10 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'crispy_forms',
+    'corsheaders',
     'analytics',
     ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = './static/'
 
 # Rest framework
 REST_FRAMEWORK = {
@@ -128,5 +131,11 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
      ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 100
+    'PAGE_SIZE': 100,
+    'DEFAULT_FILTER_BACKENDS': [
+        'url_filter.integrations.drf.DjangoFilterBackend',
+    ]
 }
+
+# Cors
+CORS_ORIGIN_ALLOW_ALL = True

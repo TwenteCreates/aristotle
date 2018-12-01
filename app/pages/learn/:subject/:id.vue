@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import hovercard from "hovercard";
+import Hovercard from "hovercard";
 import marked from "marked";
 import "@/node_modules/hovercard/build/index.css";
 export default {
@@ -118,7 +118,6 @@ export default {
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {
 				for (let i = 0; i < data.data.results.length; i++) {
-					// console.log(data.data.results[i]);
 					this.mathOptions['c_' + data.data.results[i].category] = this.mathOptions['c_' + data.data.results[i].category] || [];
 					this.mathOptions['c_' + data.data.results[i].category].push(data.data.results[i]);
 				}
@@ -136,11 +135,13 @@ export default {
 					this.details = data.data.results[0];
 					this.loading = false;
 					setTimeout(() => {
-						["natural numbers", "real numbers", "Mathematicians", "commutative", "Rational numbers", "Complex numbers", "quaternions", "Babylonians"].forEach(importantTerms => {
+						["gehele getallen", "optellen", "factor", "concreet", "voorwaarde", "vermenigvuldiging", "automatiseringsprobleem", "beheersen", "toegepast", "de som", "irrationele getallen", "complexe getallen", "breuken", "inverse", "Grensvlak", "Aardkorst", "Atmosfeer", "provincies", "bestuurslaag", "inwoners", "oppervlakte", "Vulcanus", "lava", "krater", "gas", "natuurramp", "lava", "aardkorst", "natuurramp", "hypocentrum", "breuklijnen", "aardplaten", "magma", "archeologen", "Lage Landen", "Julius Ceasar", "De Bello Gallico", "prehistorie", "protohistorie", "Egypte", "Soemerië", "bronstijd ", "ijzertijd", "mammoeten", "gereedschap", "Vlaanderen ", "graf", "Nederland", "moerassen", "reus", "dinosauriërs", "Grieken", "Romeinen", "Cultuur", "schrift", "prehistorie", "middeleeuwen", "oudheid", "Na christus", "Romeinese Rijk", "Amerika", "Boekdrukkunst", "volksverhuizingen"].forEach(importantTerms => {
 							document.querySelector(".summary-text").innerHTML = document.querySelector(".summary-text").innerHTML.replace(importantTerms, `<span class="hovercard">${importantTerms}</span>`);
 						});
 						setTimeout(() => {
-							const card = new hovercard();
+							const card = new Hovercard({
+								lang: "nl"
+							});
 							card.setup();
 						}, 1);
 					}, 1);
@@ -263,6 +264,7 @@ p + .card {
 }
 .button {
 	transition: 1s;
+	margin-bottom: 0.25rem;
 }
 .is-answer {
 	overflow: hidden;

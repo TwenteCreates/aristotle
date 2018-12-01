@@ -74,19 +74,19 @@ p {
 .hovercard {
 	cursor: help;
   font-weight: bold;
-  opacity: 0.8;
+  color: #000;
 }
-.hovercard-real {
+.hovercard-element {
 	box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2) !important;
 }
-.hovercard-real .hovercard-title {
+.hovercard-element .hovercard-title {
   font-weight: bold;
 }
-.hovercard-real .hovercard-description {
+.hovercard-element .hovercard-description {
 	line-height: 1.5 !important;
 	font-size: 100% !important;
 }
-.hovercard-real.hovercard-has-image {
+.hovercard-element.hovercard-has-image {
   width: 450px !important;
 }
 </style>

@@ -3602,9 +3602,9 @@ hosted-git-info@^2.1.4:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
 
-hovercard@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/hovercard/-/hovercard-1.0.9.tgz#e5321f9e9beb0d3c4533c59cead33844cf468d6a"
+hovercard@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/hovercard/-/hovercard-1.1.0.tgz#5b41429d3ba434ac09e2713a9e304787126e42f2"
   dependencies:
     bounding "^0.1.0"
     fetch-unless-cached "^2.0.2"

@@ -132,12 +132,12 @@
             <div class="columns">
                 <div class="column is-8">
                     <div class="box">
-                        <!-- <track-doughnut-chart :chartData="getDoughnutChartData" /> -->
+                        <cito-bar-chart :chartData="getBarChartData"  />
                     </div>
                 </div>
                 <div class="column is-4">
                     <div class="box">
-                        <track-doughnut-chart :chartData="doughnutChartData" />
+                        <track-doughnut-chart :chartData="getDoughnutChartData" />
                     </div>
                 </div>
             </div>
@@ -165,11 +165,13 @@
 <script>
 import firestore from '@/services/firestore';
 import TrackDoughnutChart from '@/components/TrackDoughnutChart';
+import CitoBarChart from '@/components/CitoBarChart';
 
 export default {
   layout: 'duo',
   components: {
     TrackDoughnutChart,
+    CitoBarChart,
   },
   data () {
     return {
@@ -208,7 +210,31 @@ export default {
                 'VWO'
             ]
         },
+        barChartData: {
+            labels: [],
+            datasets: [{
+                label: 'Study Skills Cito',
+                backgroundColor: '#005ea5',
+                data: []
+            }, {
+                label: 'Math Cito',
+                backgroundColor: '#ffdd57',
+                data: []
+            }, {
+                label: 'Language Cito',
+                backgroundColor: '#ff3860',
+                data: []
+            }]
+        },
     };
+  },
+  computed: {
+      getDoughnutChartData() {
+          return { ...this.doughnutChartData };
+      },
+      getBarChartData() {
+          return { ...this.barChartData };
+      }
   },
   mounted() {
       this.fetchData();
@@ -226,6 +252,7 @@ export default {
       this.fetchPupilsNumber();
       this.fetchMotivationNumber();
       this.fetchDropoutNumber();
+      this.fetchBarChartData();
       this.fetchDoughnutChartData();
     },
     fetchSchools() {
@@ -262,7 +289,53 @@ export default {
             for(let i = 0; i < 4; i++) {
                 this.doughnutChartData.datasets[0].data[i] = res[i].data.count;
             }
+        }).then(() => {
+            // Trigger reactivity
+            this.$set(this.doughnutChartData, 'labels', JSON.parse(JSON.stringify(this.doughnutChartData.labels)));
         })
+    },
+    fetchBarChartData() {
+        const promises = []
+        const START = 1995;
+        const YEARS = 8;
+        for(let i = START; i < START + YEARS; i++) {
+            promises.push(this.$axios.get(this.addFiltersToUrl(`https://hackathon.anandchowdhary.com/pupils?student_birth_year=${i}`)));
+
+            // Add the year as the label
+            this.barChartData.labels.push(i);
+        }
+
+        this.barChartData.datasets[0].data = [];
+        this.barChartData.datasets[1].data = [];
+        this.barChartData.datasets[2].data = [];
+
+        Promise.all(promises).then(res => {
+            for(let i = 0; i < YEARS; i++) {
+                // Filter cito students
+                const citoStudents = res[i].data.results.filter(pupil => pupil.student_end_6th_year !== 0);
+
+                // Take study skills scores;
+                const citoStudyScores = citoStudents.map(pupil => pupil.correct_study_skills_cito);
+                const citoMathScores = citoStudents.map(pupil => pupil.correct_math_cito);
+                const citoLangScores = citoStudents.map(pupil => pupil.correct_language_cito);
+
+                // Take averages and push them to the dataset
+                this.barChartData.datasets[0].data.push(this.average(citoStudyScores).toFixed(2));
+                this.barChartData.datasets[1].data.push(this.average(citoMathScores).toFixed(2));
+                this.barChartData.datasets[2].data.push(this.average(citoLangScores).toFixed(2));
+            }
+        }).then(() => {
+            // Trigger reactivity
+            let labels = [];
+            // Add the labels, also trigger the chart update.
+            for(let i = START; i < START + YEARS; i++) {
+                // Add the year as the label
+                labels.push(i);
+            }
+            this.$set(this.barChartData, 'labels', labels);
+        })
+
+
     },
     addFiltersToUrl(url) {
         url += this.filters.region ? '&region=' + this.filters.region : '';
@@ -271,7 +344,10 @@ export default {
         url += this.filters.support ? '&parent_support_home_lessons=' + this.filters.support : '';
         url += this.filters.gender ? '&gender=' + this.filters.gender : '';
         return url;
-    }
+    },
+    average(arr) {
+        return arr.reduce((a, v) => a + v, 0 ) / arr.length;
+    },
   }
 };
 </script>

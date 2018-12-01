@@ -22,7 +22,7 @@
                     display: false
                 },
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
             }
         }
     },

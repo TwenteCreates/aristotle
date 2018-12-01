@@ -12,24 +12,25 @@
 			🏆
 			<strong>{{points}}</strong>
 		</nav>
-		<div class="content">
-			<h1>Netwon&rsquo;s First Law</h1>
-			<p><span class="hovercard" data-hovercard-title="Isaac Newton">Newton</span>'s First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force. It may be seen as a statement about <span class="hovercard">inertia</span>, that objects will remain in their state of motion unless a force acts to change the motion.</p>
-			<iframe src="https://www.youtube.com/embed/D9y0RlF_DqA" />
-			<p>The First Law could be viewed as just a special case of the Second Law for which the net external force is zero, but that carries some presumptions about the frame of reference in which the motion is being viewed. The statements of both the Second Law and the First Law here are presuming that the measurements are being made in a reference frame which is not itself accelerating. Such a frame is often referred to as an "inertial frame". The statement of these laws must be generalized if you are dealing with a rotating reference frame or any frame which is accelerating.</p>
-			<p>Newton's First Law contains implications about the fundamental symmetry of the universe in that a state of motion in a straight line must be just as "natural" as being at rest. If an object is at rest in one frame of reference, it will appear to be moving in a straight line to an observer in a reference frame which is moving by the object. There is no way to say which reference frame is "special", so all constant velocity reference frames must be equivalent.</p>
+		<div class="content" v-if="loading">
+			Loading...
+		</div>
+		<div class="content" v-else>
+			<h1>{{details.name}}</h1>
+			<div v-html="marked(details.summary)" />
+			<iframe :src="`https://www.youtube.com/embed/${details.video}`" />
 			<div v-if="!isHidden" :class="`card is-answer card-content has-background-white-bis ${isCorrect ? 'is-correct' : ''} ${isHidden ? 'is-invisible' : ''}`">
 				<span class="tag is-danger">Quick question</span>
-				<p style="margin-top: 0.5rem; margin-bottom: 0.5rem">What's the answer to this question which will give you points?</p>
-				<b-radio native-value="Flint">First Law</b-radio>
-				<b-radio native-value="Flint">Second Law</b-radio>
-				<b-radio native-value="Flint">Third Law</b-radio>
+				<p style="margin-top: 0.5rem; margin-bottom: 0.5rem">{{details.question}}</p>
 				<div style="margin-top: 1rem">
-					<button class="button is-link" @click.prevent="checkAnswer">Get your points!</button>
+					<button :class="`button is-link${details.correct_answer === 0 ? ' correct' : ''}`" @click.prevent="details.correct_answer === 0 ? checkAnswer() : wrongAnswer()">{{details.answer0}}</button>
+					<button :class="`button is-link${details.correct_answer === 1 ? ' correct' : ''}`" @click.prevent="details.correct_answer === 1 ? checkAnswer() : wrongAnswer()">{{details.answer1}}</button>
+					<button :class="`button is-link${details.correct_answer === 2 ? ' correct' : ''}`" @click.prevent="details.correct_answer === 2 ? checkAnswer() : wrongAnswer()">{{details.answer2}}</button>
+					<button :class="`button is-link${details.correct_answer === 3 ? ' correct' : ''}`" @click.prevent="details.correct_answer === 3 ? checkAnswer() : wrongAnswer()">{{details.answer3}}</button>
 				</div>
 			</div>
 			<div v-if="isHidden && isCorrect" style="margin-top: 3rem">
-				<nuxt-link to="/" class="button is-link is-large is-block">Next topic for 🏆 35 &rarr;</nuxt-link>
+				<button class="button is-link is-large is-block" @click.prevent="nextTopic">Next topic for 🏆 35 &rarr;</button>
 			</div>
 		</div>
 		<div class="progress">
@@ -40,15 +41,19 @@
 
 <script>
 import hovercard from "hovercard";
+import marked from "marked";
 import "@/node_modules/hovercard/build/index.css";
 export default {
 	data() {
 		return {
+			loading: true,
 			points: 42,
+			details: {},
 			progressPercent: 0,
 			isCorrect: false,
 			increasing: false,
-			isHidden: false
+			isHidden: false,
+			id: 1
 		}
 	},
 	computed: {
@@ -57,17 +62,47 @@ export default {
 		}
 	},
 	mounted() {
-		const card = new hovercard();
-		card.setup();
-		window.onscroll = val => {
-			let h = document.documentElement, 
-			b = document.body,
-			st = "scrollTop",
-			sh = "scrollHeight";
-			this.progressPercent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
-		}
+		this.setup();
 	},
 	methods: {
+		setup() {
+			this.loading = true;
+			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.id)
+				.then(data => {
+					this.details = data.data.results[0];
+					this.loading = false;
+				});
+			const card = new hovercard();
+			["a", "b", "c"].forEach(importantTerms => {
+				console.log(importantTerms);
+			});
+			card.setup();
+			window.onscroll = val => {
+				let h = document.documentElement, 
+				b = document.body,
+				st = "scrollTop",
+				sh = "scrollHeight";
+				this.progressPercent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+			}
+		},
+		nextTopic() {
+			this.loading = true;
+			this.details = {};
+			this.progressPercent = 0;
+			this.isCorrect = false;
+			this.increasing = false;
+			this.isHidden = false;
+			this.id++;
+			window.scrollTo(0, 0);
+			this.setup();
+		},
+		marked(md) {
+			if (!md) return;
+			return marked(md);
+		},
+		wrongAnswer() {
+			alert("Try again!");
+		},
 		checkAnswer() {
 			this.isCorrect = !this.isCorrect;
 			const newPoints = this.points + 30;
@@ -176,7 +211,7 @@ p + .card {
 		opacity: 0;
 		transform: translate(-50%, -70%);
 		font-size: 150%;
-		z-index: 1;
+		z-index: 3;
 	}
 	&.is-invisible {
 		opacity: 0;
@@ -185,9 +220,10 @@ p + .card {
 }
 .is-correct {
 	overflow: hidden;
-	.button {
+	.button.correct {
+		z-index: 2;
 		background-color: #2ecc71;
-		transform: scale(20) translateY(10px);
+		transform: scale(30) translateY(10px);
 	}
 	&::before {
 		opacity: 1;

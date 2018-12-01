@@ -68,8 +68,8 @@
 			🏆
 			<strong>{{points}}</strong>
 		</nav>
-		<div class="content" v-if="loading">
-			Loading...
+		<div class="content" style="text-align: center" v-if="loading">
+			<img alt="Loading..." src="https://cdn-images-1.medium.com/max/1600/1*8NJgObmgEVhNWVt3poeTaA.gif">
 		</div>
 		<div class="content" v-else>
 			<h1>{{details.name}}</h1>
@@ -108,8 +108,7 @@ export default {
 			progressPercent: 0,
 			isCorrect: false,
 			increasing: false,
-			isHidden: false,
-			id: 1
+			isHidden: false
 		}
 	},
 	computed: {
@@ -123,7 +122,7 @@ export default {
 	methods: {
 		setup() {
 			this.loading = true;
-			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.id)
+			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.$route.params.id)
 				.then(data => {
 					this.details = data.data.results[0];
 					this.loading = false;
@@ -146,15 +145,8 @@ export default {
 			}
 		},
 		nextTopic() {
-			this.loading = true;
-			this.details = {};
-			this.progressPercent = 0;
-			this.isCorrect = false;
-			this.increasing = false;
-			this.isHidden = false;
-			this.id++;
-			window.scrollTo(0, 0);
-			this.setup();
+			const path = this.$route.path;
+			this.$router.push("/learn/" + this.$route.params.subject + "/" + (parseInt(this.$route.params.id) + 1));
 		},
 		marked(md) {
 			if (!md) return;

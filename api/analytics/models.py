@@ -96,6 +96,7 @@ class Pupil(models.Model):
     ever_registered_as_school_drop_out = models.BooleanField(choices=YESNO, null=True)
     family_both_parents = models.BooleanField(choices=YESNO, null=True)
 
+
 class Concept(models.Model):
     name = models.CharField(max_length=200)
     video = models.CharField(max_length=20)
@@ -116,6 +117,7 @@ class Concept(models.Model):
     def __str__(self):
         return self.name
 
+
 class ConceptRelation(models.Model):
     """
     How the from concept related to the to concept
@@ -127,3 +129,34 @@ class ConceptRelation(models.Model):
     def __str__(self):
         return "%s relation from %s to %s" % (get_value(CONCEPT_RELATION_LEVELS, self.level), self.from_concept, self.to_concept)
 
+
+class PrimarySchool(models.Model):
+    straatnaam_correspondentie_adres = models.CharField(max_length=80)
+    nodaal_gebied_naam = models.CharField(max_length=80)
+    gemeentenaam = models.CharField(max_length=80)
+    rmc_regio_naam = models.CharField(max_length=80)
+    rpa_gebied_naam = models.CharField(max_length=80)
+    wgr_gebied_code = models.CharField(max_length=80)
+    postcode = models.CharField(max_length=80)
+    postcode_correspondentie_adres = models.CharField(max_length=80)
+    gemeente_nummer = models.CharField(max_length=80)
+    onderwijsgebied_naam = models.CharField(max_length=80)
+    plaatsnaam = models.CharField(max_length=80)
+    plaatsnaam_correspondentieadres = models.CharField(max_length=80)
+    denominatie = models.CharField(max_length=80)
+    coropgebied_naam = models.CharField(max_length=80)
+    brin_nummer = models.CharField(max_length=80)
+    nodaal_gebied_code = models.CharField(max_length=80)
+    bevoegd_gezag_nummer = models.CharField(max_length=80)
+    internetadres = models.CharField(max_length=80)
+    provincie = models.CharField(max_length=80)
+    wgr_gebied_naam = models.CharField(max_length=80)
+    rmc_regio_code = models.CharField(max_length=80)
+    huisnummer_toevoeging = models.CharField(max_length=80)
+    rpa_gebied_code = models.CharField(max_length=80)
+    instellings_naam = models.CharField(max_length=80)
+    huisnummer_toevoeging_correspondentieadres = models.CharField(max_length=80)
+    onderwijsgebied_code = models.CharField(max_length=80)
+    coropgebied_code = models.CharField(max_length=80)
+    straatnaam = models.CharField(max_length=80)
+    telefoonnummer = models.CharField(max_length=80)

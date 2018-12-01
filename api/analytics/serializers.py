@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from analytics.models import Pupil, Concept, ConceptRelation
+from analytics.models import *
 
 
 class ConceptRelationSerializer(serializers.ModelSerializer):
@@ -15,9 +15,14 @@ class PupilSerializer(serializers.ModelSerializer):
 
 
 class ConceptSerializer(serializers.ModelSerializer):
-
     related = ConceptRelationSerializer(source='get_related_concepts',many=True)
 
     class Meta:
         model = Concept
+        fields = '__all__'
+
+
+class PrimarySchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PrimarySchool
         fields = '__all__'

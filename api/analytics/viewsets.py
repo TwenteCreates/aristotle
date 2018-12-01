@@ -19,4 +19,3 @@ class PrimarySchoolView(viewsets.ViewSetMixin, generics.ListAPIView):
     queryset = PrimarySchool.objects.all()
     serializer_class = PrimarySchoolSerializer
     filter_fields = [getattr(field, 'name') for field in PrimarySchool._meta.fields]
-

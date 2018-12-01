@@ -35,7 +35,9 @@ export default {
                 lastSignInTime: userProfile.metadata.lastSignInTime,
                 name: userProfile.displayName,
                 email: userProfile.email,
-                photoUrl: userProfile.photoURL
+                photoUrl: userProfile.photoURL,
+                role: 'student',
+                points: 0
             }, { merge: true });
         } else {
             this.$router.push("/login");

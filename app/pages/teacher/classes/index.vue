@@ -4,45 +4,33 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Teacher dashboard
+                        Classes overview
                     </h1>
                     <h2 class="subtitle">
-                        Overview and insights about the status of the learning process.
+                        An overview of all the classes assigned to you.
                     </h2>
                 </div>
             </div>
         </section>
-
         <section class="container">
-            <a class="button is-primary" @click="$router.push('/teacher/classes')">Classes overview</a>
-        </section>
-
-        <section class="container stats-container">
-            <div class="columns is-mobile">
-                <div class="column is-4">
-                    <div class="box">
-                        Stat
-                    </div>
-                </div>
-                <div class="column is-4">
-                    <div class="box">
-                        Stat
-                    </div>
-                </div>
-                <div class="column is-4">
-                    <div class="box">
-                        Stat
-                    </div>
-                </div>
+            <div class="column is-12 chart-wrapper box">
+                <class-line-chart :chartData="getClassChartData" />
             </div>
+        </section>
+        <section class="container">
+            <classes-tiles :classes="classes" />
         </section>
     </main>
 </template>
 
 <style scoped>
-.container {
+main {
+    padding-top: 1rem;
+}
+
+.chart-wrapper {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 </style>
 
@@ -52,25 +40,43 @@ import firestore from '@/services/firestore';
 import ClassesTiles from '@/components/ClassesTiles';
 import ClassLineChart from '@/components/ClassLineChart';
 
+
 export default {
   components: {
     ClassesTiles,
+    ClassLineChart
   },
   data () {
     return {
         dataItem: '',
-        classes: null,
+        classes: [],
     };
   },
+  computed: {
+    getClassChartData() {
+        return {
+            // labels: this.analyses.map(analysis => analysis.createdAt.toDate().toLocaleDateString()),
+            labels: [],
+            datasets: [
+                {
+                    label: 'Average class grades',
+                    backgroundColor: '#2581c3',
+                    data: [],
+                }
+            ]
+        }
+    }
+  },
   mounted() {
+    this.fetchClasses();
   },
   methods: {
     fetchClasses() {
         firestore.collection("classes").onSnapshot(querySnapshot => {
             this.classes = [];
             querySnapshot.forEach(doc => {
-                const event = doc.data();
-                this.classes.push({...event, id: doc.id});
+                const classData = doc.data();
+                this.classes.push({...classData, id: doc.id});
             });
         });
     }

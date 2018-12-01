@@ -14,8 +14,8 @@
 		</nav>
 		<div class="content">
 			<h1>Netwon&rsquo;s First Law</h1>
-			<p>Newton's First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force. It may be seen as a statement about inertia, that objects will remain in their state of motion unless a force acts to change the motion.</p>
-			<iframe src="https://www.youtube.com/embed/E6_6z1ZJ_0s" />
+			<p><span class="hovercard" data-hovercard-title="Isaac Newton">Newton</span>'s First Law states that an object will remain at rest or in uniform motion in a straight line unless acted upon by an external force. It may be seen as a statement about <span class="hovercard">inertia</span>, that objects will remain in their state of motion unless a force acts to change the motion.</p>
+			<iframe src="https://www.youtube.com/embed/D9y0RlF_DqA" />
 			<p>The First Law could be viewed as just a special case of the Second Law for which the net external force is zero, but that carries some presumptions about the frame of reference in which the motion is being viewed. The statements of both the Second Law and the First Law here are presuming that the measurements are being made in a reference frame which is not itself accelerating. Such a frame is often referred to as an "inertial frame". The statement of these laws must be generalized if you are dealing with a rotating reference frame or any frame which is accelerating.</p>
 			<p>Newton's First Law contains implications about the fundamental symmetry of the universe in that a state of motion in a straight line must be just as "natural" as being at rest. If an object is at rest in one frame of reference, it will appear to be moving in a straight line to an observer in a reference frame which is moving by the object. There is no way to say which reference frame is "special", so all constant velocity reference frames must be equivalent.</p>
 			<div v-if="!isHidden" :class="`card is-answer card-content has-background-white-bis ${isCorrect ? 'is-correct' : ''} ${isHidden ? 'is-invisible' : ''}`">
@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import hovercard from "hovercard";
+import "@/node_modules/hovercard/build/index.css";
 export default {
 	data() {
 		return {
@@ -55,6 +57,8 @@ export default {
 		}
 	},
 	mounted() {
+		const card = new hovercard();
+		card.setup();
 		window.onscroll = val => {
 			let h = document.documentElement, 
 			b = document.body,
@@ -89,6 +93,11 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Lora");
+.hovercard {
+	border-bottom: 1px solid;
+	cursor: help;
+	color: #69e;
+}
 .progress {
 	position: fixed;
 	left: 300px; right: 0;

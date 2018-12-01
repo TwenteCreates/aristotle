@@ -1699,6 +1699,10 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
+bounding@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/bounding/-/bounding-0.1.0.tgz#d523ad3a4112da244f1582800b16a7aa9f98fc8a"
+
 boxen@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/boxen/-/boxen-1.3.0.tgz#55c6c39a8ba58d9c61ad22cd877532deb665a20b"
@@ -3094,6 +3098,15 @@ faye-websocket@0.11.1:
   dependencies:
     websocket-driver ">=0.5.1"
 
+fetch-unless-cached@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/fetch-unless-cached/-/fetch-unless-cached-2.0.2.tgz#e489de58496d6771bd9966ebe6c72a35344406e9"
+  dependencies:
+    isomorphic-fetch "2.2.1"
+    lscache "1.1.0"
+    object-hash "1.2.0"
+    requestidlecallback "0.3.0"
+
 figgy-pudding@^3.1.0, figgy-pudding@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/figgy-pudding/-/figgy-pudding-3.5.1.tgz#862470112901c727a0e495a80744bd5baa1d6790"
@@ -3114,6 +3127,10 @@ file-loader@^2.0.0:
 file-type@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/file-type/-/file-type-9.0.0.tgz#a68d5ad07f486414dfb2c8866f73161946714a18"
+
+filename-reserved-regex@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/filename-reserved-regex/-/filename-reserved-regex-2.0.0.tgz#abf73dfab735d045440abfea2d91f389ebbfa229"
 
 filesize@^3.6.1:
   version "3.6.1"
@@ -3566,6 +3583,14 @@ hoopy@^0.1.2:
 hosted-git-info@^2.1.4:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
+
+hovercard@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/hovercard/-/hovercard-1.0.9.tgz#e5321f9e9beb0d3c4533c59cead33844cf468d6a"
+  dependencies:
+    bounding "^0.1.0"
+    fetch-unless-cached "^2.0.2"
+    wiki-article-name-encoding "^0.1.0"
 
 hsl-regex@^1.0.0:
   version "1.0.0"
@@ -4358,6 +4383,10 @@ lru-cache@4.1.x, lru-cache@^4.0.1, lru-cache@^4.1.2, lru-cache@^4.1.3:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
+lscache@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/lscache/-/lscache-1.1.0.tgz#cbcf2df9ccf634f3c8f9c659bcbe044d6f73b860"
+
 make-dir@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -4861,6 +4890,10 @@ object-copy@^0.1.0:
     copy-descriptor "^0.1.0"
     define-property "^0.2.5"
     kind-of "^3.0.3"
+
+object-hash@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/object-hash/-/object-hash-1.2.0.tgz#e96af0e96981996a1d47f88ead8f74f1ebc4422b"
 
 object-keys@^1.0.12:
   version "1.0.12"
@@ -6130,6 +6163,10 @@ request@^2.87.0, request@^2.88.0:
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
 
+requestidlecallback@0.3.0:
+  version "0.3.0"
+  resolved "http://registry.npmjs.org/requestidlecallback/-/requestidlecallback-0.3.0.tgz#6fb74e0733f90df3faa4838f9f6a2a5f9b742ac5"
+
 require-directory@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/require-directory/-/require-directory-2.1.1.tgz#8c64ad5fd30dab1c976e2344ffe7f792a6a6df42"
@@ -6578,6 +6615,10 @@ stream-http@^2.7.2:
 stream-shift@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
+
+strict-uri-encode@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-2.0.0.tgz#b9c7330c7042862f6b142dc274bbcc5866ce3546"
 
 string-width@^1.0.1, string-width@^1.0.2:
   version "1.0.2"
@@ -7355,6 +7396,13 @@ widest-line@^2.0.0:
   resolved "https://registry.yarnpkg.com/widest-line/-/widest-line-2.0.1.tgz#7438764730ec7ef4381ce4df82fb98a53142a3fc"
   dependencies:
     string-width "^2.1.1"
+
+wiki-article-name-encoding@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/wiki-article-name-encoding/-/wiki-article-name-encoding-0.1.0.tgz#3b29892dc7bb63d5e66d05d3ef35fc53c07ab49b"
+  dependencies:
+    filename-reserved-regex "^2.0.0"
+    strict-uri-encode "^2.0.0"
 
 window-size@^0.1.4:
   version "0.1.4"

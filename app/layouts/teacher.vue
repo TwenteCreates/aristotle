@@ -18,7 +18,7 @@
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .vertical-nav {
 	background-color: #455A64;
 	position: absolute;
@@ -51,7 +51,7 @@ export default {
             menuItems: [
                 {name: 'Teacher dashboard', icon: 'fas fa-chalkboard-teacher', routeName: 'teacher'},
                 {name: 'Teacher dashboard', icon: 'fas fa-users', routeName: 'teacher-classes'},
-                {name: 'Teacher dashboard', icon: 'fas fa-cogs', routeName: 'profile-admin'},
+                {name: 'Teacher dashboard', icon: 'fas fa-cogs', routeName: 'profile-teacher'},
             ]
         }
     },

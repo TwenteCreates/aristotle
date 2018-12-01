@@ -18,9 +18,9 @@
     </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .vertical-nav {
-	background-color: #455A64;
+	background-color: #005ea5;
 	position: absolute;
 	left: 0;
     top: 0;
@@ -35,7 +35,7 @@
 		text-align: center;
 		&.active {
 			background-color: whitesmoke;
-            color: #455A64;
+            color: #005ea5;
 		}
 	}
 }
@@ -49,9 +49,9 @@ export default {
     data() {
         return {
             menuItems: [
-                {name: 'Overall dashboard', icon: 'fas fa-map', routeName: 'dashboard'},
-                {name: 'Historical data', icon: 'fas fa-history', routeName: 'teacher-classes'},
-                {name: 'Profile admin', icon: 'fas fa-cogs', routeName: 'profile-admin'},
+                {name: 'Overall dashboard', icon: 'fas fa-map', routeName: 'duo'},
+                {name: 'Historical data', icon: 'fas fa-history', routeName: 'duo-history'},
+                {name: 'Profile admin', icon: 'fas fa-cogs', routeName: 'profile-duo'},
             ]
         }
     },

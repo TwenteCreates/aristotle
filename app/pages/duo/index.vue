@@ -43,14 +43,14 @@ export default {
     };
   },
   mounted() {
+      this.fetchSchools();
   },
   methods: {
     fetchSchools() {
-        firestore.collection("schools").onSnapshot(querySnapshot => {
+        firestore.collection("schools").get().then(querySnapshot => {
             this.schools = [];
             querySnapshot.forEach(doc => {
-                const event = doc.data();
-                this.schools.push({...event, id: doc.id});
+                this.schools.push({...doc.data(), id: doc.id});
             });
         });
     }

@@ -17,17 +17,15 @@
                 <class-line-chart :chartData="getClassChartData" />
             </div>
         </section>
+
         <section class="container">
+            <h1 class="title">Classes</h1>
             <classes-tiles :classes="classes" />
         </section>
     </main>
 </template>
 
 <style scoped>
-main {
-    padding-top: 1rem;
-}
-
 .chart-wrapper {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
@@ -42,6 +40,7 @@ import ClassLineChart from '@/components/ClassLineChart';
 
 
 export default {
+  layout: 'admin',
   components: {
     ClassesTiles,
     ClassLineChart

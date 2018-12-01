@@ -13,25 +13,52 @@
             </div>
         </section>
 
-        <section class="container">
+        <!-- <section class="container">
             <a class="button is-primary" @click="$router.push('/teacher/classes')">Classes overview</a>
-        </section>
+        </section> -->
 
         <section class="container stats-container">
             <div class="columns is-mobile">
                 <div class="column is-4">
-                    <div class="box">
-                        Stat
+                    <div class="box hero is-info is-bold">
+                        <div class="hero-body">
+                            <div class="container">
+                                <h1 class="title">
+                                    Medium title
+                                </h1>
+                                <h2 class="subtitle">
+                                    Medium subtitle
+                                </h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-4">
-                    <div class="box">
-                        Stat
+                    <div class="box hero is-warning is-bold">
+                        <div class="hero-body">
+                            <div class="container">
+                                <h1 class="title">
+                                    Medium title
+                                </h1>
+                                <h2 class="subtitle">
+                                    Medium subtitle
+                                </h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-4">
-                    <div class="box">
-                        Stat
+                    <div class="box hero is-danger is-bold">
+                        <div class="hero-body">
+                            <div class="container">
+                                <h1 class="title">
+                                    Medium title
+                                </h1>
+                                <h2 class="subtitle">
+                                    Medium subtitle
+                                </h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -53,6 +80,7 @@ import ClassesTiles from '@/components/ClassesTiles';
 import ClassLineChart from '@/components/ClassLineChart';
 
 export default {
+  layout: 'admin',
   components: {
     ClassesTiles,
   },

@@ -12,12 +12,14 @@
                 </div>
             </div>
         </section>
-        <section class="container">
-            Students stats
+        <section class="container stats-container">
+            <div class="box">
+            </div>
         </section>
 
         <section class="container" v-if="classData">
             <b-table
+                class="box"
                 :data="students"
                 :bordered="false"
                 :striped="true"
@@ -66,13 +68,19 @@
     </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.stats-container {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+</style>
 
 
 <script>
 import firestore from '@/services/firestore';
 
 export default {
+  layout: 'admin',
   data () {
     return {
         classId: '',

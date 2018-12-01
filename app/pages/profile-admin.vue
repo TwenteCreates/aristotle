@@ -16,13 +16,18 @@
                             <h2 class="subtitle">
                                 {{user.email}}
                             </h2>
+                            <a class="button is-primary is-inverted is-outlined" @click="logout">
+                                <span class="icon is-small">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </span>
+                                <span>Log out</span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
         <section class="container profile-container">
-            <button class="button is-primary" @click="logout">Log out</button>
         </section>
     </main>
 </template>
@@ -33,11 +38,11 @@
 }
 </style>
 
-
 <script>
 import { LOGOUT } from '@/store/user';
 
 export default {
+  layout: 'admin',
   computed: {
 	  user () {
 		  return this.$store.state.user.profile;

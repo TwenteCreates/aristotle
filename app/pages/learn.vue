@@ -2,10 +2,10 @@
 	<main>
 		<aside>
 			<div class="vertical-nav">
-				<a href="#">1</a>
-				<a href="#" class="active">2</a>
-				<a href="#">3</a>
-				<a href="#">4</a>
+				<a href="#"><i class="fas fa-chart-line"></i></a>
+				<a href="#" class="active"><i class="fas fa-book-reader"></i></a>
+				<a href="#"><i class="fas fa-comments"></i></a>
+				<a href="#"><i class="fas fa-cogs"></i></a>
 			</div>
 		</aside>
 		<nav :class="`${increasing ? 'is-increasing' : ''}`">
@@ -195,7 +195,7 @@ p + .card {
 		height: 70px;
 		line-height: 70px;
 		color: rgba(0, 0, 0, 0.5);
-		font-size: 32px;
+		font-size: 24px;
 		text-align: center;
 		&.active {
 			background-color: whitesmoke;

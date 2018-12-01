@@ -60,6 +60,7 @@ export default {
 
 
 <style lang="scss">
+@import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
 p + p {
   margin-top: 1rem;
 }

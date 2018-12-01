@@ -33,6 +33,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~/plugins/youtube.js', ssr: false }
   ],
 
   /*
@@ -42,7 +43,9 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/axios-module#usage
     '@nuxtjs/axios',
     // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    'nuxt-buefy',
+    // Doc: https://pwa.nuxtjs.org,
+    '@nuxtjs/pwa',
   ],
   /*
   ** Axios module configuration
@@ -59,7 +62,23 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
-  }
+  },
+    env: {
+        firebaseConfig: {
+            apiKey: "AIzaSyBl76MZk1_KBU0oFrR57vRLdMnCYRZKaHk",
+            authDomain: "aristotle-beta.firebaseapp.com",
+            databaseURL: "https://aristotle-beta.firebaseio.com",
+            projectId: "aristotle-beta",
+            storageBucket: "",
+            messagingSenderId: "759606146433"
+        },
+    },
+    manifest: {
+        name: 'Aristotle - Your personal tutor',
+        short_name: 'Aristotle',
+        background_color: "#fff",
+        lang: 'en'
+    }
 }

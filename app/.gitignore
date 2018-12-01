@@ -79,3 +79,9 @@ dist
 
 # IDE
 .idea
+
+#Firebase
+.firebase
+
+#PWA
+sw.*

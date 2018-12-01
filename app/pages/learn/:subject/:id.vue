@@ -3,9 +3,9 @@
 		<aside>
 			<div class="vertical-nav">
 				<nuxt-link to="/"><i class="fas fa-chart-line"></i></nuxt-link>
-				<nuxt-link to="/" class="active"><i class="fas fa-book-reader"></i></nuxt-link>
-				<nuxt-link to="/"><i class="fas fa-comments"></i></nuxt-link>
-				<nuxt-link to="/"><i class="fas fa-cogs"></i></nuxt-link>
+				<nuxt-link to="/learn/wiskunde/1" class="active"><i class="fas fa-book-reader"></i></nuxt-link>
+				<a @click.prevent="chatting = !chatting" to="/chat"><i class="fas fa-comments"></i></a>
+				<nuxt-link to="/settings"><i class="fas fa-cogs"></i></nuxt-link>
 			</div>
 			<ul>
 				<li>
@@ -36,8 +36,8 @@
 						Wiskunde
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/wiskunde/1">Multiplication</nuxt-link></li>
-						<li><nuxt-link to="/learn/wiskunde/2">Multiplication tables</nuxt-link></li>
+						<li><nuxt-link to="/learn/wiskunde/1">Vermenigvuldigen</nuxt-link></li>
+						<li><nuxt-link to="/learn/wiskunde/2">Tafels</nuxt-link></li>
 					</ul>
 				</li>
 				<li>
@@ -73,10 +73,11 @@
 		</div>
 		<div class="content" v-else>
 			<h1>{{details.name}}</h1>
-			<div class="summary-text" v-html="marked(details.summary)" />
+			<img class="h-image" alt="" :src="details.image">
+			<div class="summary-text" v-html="marked(details.summary)" data-read-aloud />
 			<iframe :src="`https://www.youtube.com/embed/${details.video}`" />
 			<div v-if="!isHidden" :class="`card is-answer card-content has-background-white-bis ${isCorrect ? 'is-correct' : ''} ${isHidden ? 'is-invisible' : ''}`">
-				<span class="tag is-danger">Quick question</span>
+				<span class="tag is-danger">Snelle vraag</span>
 				<p style="margin-top: 0.5rem; margin-bottom: 0.5rem">{{details.question}}</p>
 				<div style="margin-top: 1rem">
 					<button :class="`button is-link${details.correct_answer === 0 ? ' correct' : ''}`" @click.prevent="details.correct_answer === 0 ? checkAnswer() : wrongAnswer()">{{details.answer0}}</button>
@@ -88,10 +89,12 @@
 			<div v-if="isHidden && isCorrect" style="margin-top: 3rem">
 				<button class="button is-link is-large is-block" @click.prevent="nextTopic">Next topic for 🏆 35 &rarr;</button>
 			</div>
+			<audio :src="`https://agastya-services.oswaldlabs.com/read-aloud/?text=${encode(details.summary)}`" controls />
 		</div>
 		<div class="progress">
 			<div class="progress-value" :style="`width: ${progressPercent}%`"></div>
 		</div>
+		<iframe v-if="chatting" class="chatbot" src="https://console.dialogflow.com/api-client/demo/embedded/1b37d0e9-c3ab-429c-b87f-7cb50a473f21"></iframe>
 	</main>
 </template>
 
@@ -106,6 +109,7 @@ export default {
 			tries: 0,
 			points: 42,
 			details: {},
+			chatting: false,
 			progressPercent: 0,
 			isCorrect: false,
 			increasing: false,
@@ -121,6 +125,9 @@ export default {
 		this.setup();
 	},
 	methods: {
+		encode(text) {
+			return encodeURIComponent(text);
+		},
 		setup() {
 			this.loading = true;
 			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.$route.params.id)
@@ -158,7 +165,6 @@ export default {
 			this.tries++;
 		},
 		checkAnswer() {
-			console.log("ABC");
 			this.isCorrect = true;
 			let givePoints = 30;
 			if (this.tries === 1) givePoints = 20;
@@ -187,6 +193,16 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css?family=Lora");
+.chatbot {
+	position: fixed;
+	bottom: 0;
+	height: 60vh;
+	right: 5.75rem;
+	background-color: #fff;
+	margin: 0;
+	box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+	width: 350px;
+}
 .progress {
 	position: fixed;
 	left: 300px; right: 0;
@@ -331,5 +347,18 @@ aside ul {
 			margin-right: 0.25rem;
 		}
 	}
+}
+audio {
+	position: fixed;
+	height: 100px !important;
+	bottom: 1rem;
+	left: 50%;
+	z-index: 5;
+}
+.h-image {
+	max-width: 300px;
+	float: left;
+	margin-right: 2rem;
+	margin-bottom: 1rem;
 }
 </style>

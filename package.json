@@ -1,9 +1,0 @@
-{
-  "devDependencies": {
-    "node-sass": "^4.10.0",
-    "sass-loader": "^7.1.0"
-  },
-  "dependencies": {
-    "vue-youtube": "^1.3.0"
-  }
-}

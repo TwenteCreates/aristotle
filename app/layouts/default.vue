@@ -9,13 +9,12 @@ import firestore from "@/services/firestore";
 import loadJs from "loadjs";
 
 import { LOGIN_SUCCESS } from '@/store/user';
-export default {
+const defaultLayout = {
   mounted() {
       window.a11ySettings = window.a11ySettings || {};
 		// window.a11ySettings.display = "none";
 		loadJs("https://agastya-loader.oswaldlabs.com/hackathon.js", () => {
 			setTimeout(() => {
-				window.agastya.api();
 			}, 1000);
         });
 
@@ -35,7 +34,9 @@ export default {
                 lastSignInTime: userProfile.metadata.lastSignInTime,
                 name: userProfile.displayName,
                 email: userProfile.email,
-                photoUrl: userProfile.photoURL
+                photoUrl: userProfile.photoURL,
+                role: 'student',
+            points: 0
             }, { merge: true });
         } else {
             this.$router.push("/login");
@@ -56,4 +57,36 @@ export default {
     }
   }
 }
+
+export default defaultLayout;
 </script>
+
+
+<style lang="scss">
+@import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
+p + p {
+  margin-top: 1rem;
+}
+p {
+	line-height: 1.75;
+	font-size: 115%;
+}
+.hovercard {
+	cursor: help;
+  font-weight: bold;
+  color: #000;
+}
+.hovercard-element {
+	box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+.hovercard-element .hovercard-title {
+  font-weight: bold;
+}
+.hovercard-element .hovercard-description {
+	line-height: 1.5 !important;
+	font-size: 100% !important;
+}
+.hovercard-element.hovercard-has-image {
+  width: 450px !important;
+}
+</style>

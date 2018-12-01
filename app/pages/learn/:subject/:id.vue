@@ -9,57 +9,48 @@
 			</div>
 			<ul>
 				<li>
-					<nuxt-link to="/learn/nederlands">
+					<nuxt-link to="/learn/0">
 						<i class="fas fa-fw fa-font"></i>
 						Nederlands
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/nederlands/1">Lesson 1</nuxt-link></li>
-						<li><nuxt-link to="/learn/nederlands/2">Lesson 2</nuxt-link></li>
-						<li><nuxt-link to="/learn/nederlands/3">Lesson 3</nuxt-link></li>
+						<li v-for="(item, index) in mathOptions.c_0" :key="'nederlands_' + index"><nuxt-link :to="`/learn/0/${item.id}`">{{item.name}}</nuxt-link></li>
 					</ul>
 				</li>
 				<li>
-					<nuxt-link to="/learn/engels">
+					<nuxt-link to="/learn/1">
 						<i class="fas fa-fw fa-font"></i>
 						Engels
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/engels/1">Lesson 1</nuxt-link></li>
-						<li><nuxt-link to="/learn/engels/2">Lesson 2</nuxt-link></li>
-						<li><nuxt-link to="/learn/engels/3">Lesson 3</nuxt-link></li>
+						<li v-for="(item, index) in mathOptions.c_1" :key="'engels_' + index"><nuxt-link :to="`/learn/1/${item.id}`">{{item.name}}</nuxt-link></li>
 					</ul>
 				</li>
 				<li>
-					<nuxt-link to="/learn/wiskunde">
+					<nuxt-link to="/learn/2">
 						<i class="fas fa-fw fa-calculator"></i>
 						Wiskunde
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/wiskunde/1">Vermenigvuldigen</nuxt-link></li>
-						<li><nuxt-link to="/learn/wiskunde/2">Tafels</nuxt-link></li>
+						<li v-for="(item, index) in mathOptions.c_2" :key="'wiskunde_' + index"><nuxt-link :to="`/learn/2/${item.id}`">{{item.name}}</nuxt-link></li>
 					</ul>
 				</li>
 				<li>
-					<nuxt-link to="/learn/aardrijkskunde">
+					<nuxt-link to="/learn/3">
 						<i class="fas fa-fw fa-globe-africa"></i>
 						Aardrijkskunde
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/aardrijkskunde/1">Lesson 1</nuxt-link></li>
-						<li><nuxt-link to="/learn/aardrijkskunde/2">Lesson 2</nuxt-link></li>
-						<li><nuxt-link to="/learn/aardrijkskunde/3">Lesson 3</nuxt-link></li>
+						<li v-for="(item, index) in mathOptions.c_3" :key="'aardrijkskunde_' + index"><nuxt-link :to="`/learn/3/${item.id}`">{{item.name}}</nuxt-link></li>
 					</ul>
 				</li>
 				<li>
-					<nuxt-link to="/learn/geschiedenis">
+					<nuxt-link to="/learn/4">
 						<i class="fas fa-fw fa-landmark"></i>
 						Geschiedenis
 					</nuxt-link>
 					<ul>
-						<li><nuxt-link to="/learn/geschiedenis/1">Lesson 1</nuxt-link></li>
-						<li><nuxt-link to="/learn/geschiedenis/2">Lesson 2</nuxt-link></li>
-						<li><nuxt-link to="/learn/geschiedenis/3">Lesson 3</nuxt-link></li>
+						<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
 					</ul>
 				</li>
 			</ul>
@@ -113,7 +104,8 @@ export default {
 			progressPercent: 0,
 			isCorrect: false,
 			increasing: false,
-			isHidden: false
+			isHidden: false,
+			mathOptions: {}
 		}
 	},
 	computed: {
@@ -123,6 +115,15 @@ export default {
 	},
 	mounted() {
 		this.setup();
+		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
+			.then(data => {
+				for (let i = 0; i < data.data.results.length; i++) {
+					// console.log(data.data.results[i]);
+					this.mathOptions['c_' + data.data.results[i].category] = this.mathOptions['c_' + data.data.results[i].category] || [];
+					this.mathOptions['c_' + data.data.results[i].category].push(data.data.results[i]);
+				}
+				this.$forceUpdate();
+			});
 	},
 	methods: {
 		encode(text) {

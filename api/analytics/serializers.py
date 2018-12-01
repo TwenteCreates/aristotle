@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from analytics.models import Pupil
 
-class PupilSerializer(serializers.HyperlinkedModelSerializer):
+class PupilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pupil
-        fields = ('id', 'gender', 'recommendation')
+        fields = '__all__'

@@ -75,7 +75,9 @@ module.exports = {
         },
     },
     manifest: {
-        name: 'Aristotle',
+        name: 'Aristotle - Your personal tutor',
+        short_name: 'Aristotle',
+        background_color: "#fff",
         lang: 'en'
     }
 }

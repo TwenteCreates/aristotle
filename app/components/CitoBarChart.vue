@@ -1,16 +1,16 @@
 <template>
     <main>
-        <doughnut-chart style="height: 400px" :chart-data="chartData" :options="options"/>
+        <bar-chart style="max-height: 600px" :chart-data="chartData" :options="options"/>
     </main>
 </template>
 
 
 <script>
-  import DoughnutChart from '@/components/charts/DoughnutChart.js'
+  import BarChart from '@/components/charts/BarChart.js'
 
   export default {
     components: {
-        DoughnutChart
+        BarChart
     },
     data () {
         return {
@@ -23,14 +23,20 @@
 				title: {
                     display: true,
                     fontSize: '20',
-					text: 'Study track 9th grade'
+					text: 'Average Cito Scores By Starting Year'
 				},
 				animation: {
 					animateScale: true,
 					animateRotate: true
                 },
-                circumference: Math.PI,
-				rotation: -Math.PI
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
             }
         }
     },

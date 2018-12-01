@@ -103,6 +103,7 @@ export default {
 	data() {
 		return {
 			loading: true,
+			tries: 0,
 			points: 42,
 			details: {},
 			progressPercent: 0,
@@ -154,11 +155,16 @@ export default {
 		},
 		wrongAnswer() {
 			alert("Try again!");
+			this.tries++;
 		},
 		checkAnswer() {
 			console.log("ABC");
 			this.isCorrect = true;
-			const newPoints = this.points + 30;
+			let givePoints = 30;
+			if (this.tries === 1) givePoints = 20;
+			if (this.tries === 2) givePoints = 10;
+			if (this.tries >= 3) givePoints = 0;
+			const newPoints = this.points + givePoints;
 			setTimeout(() => {
 				const interval = setInterval(() => {
 					if (newPoints === this.points) {

@@ -40,7 +40,7 @@ import ClassLineChart from '@/components/ClassLineChart';
 
 
 export default {
-  layout: 'admin',
+  layout: 'teacher',
   components: {
     ClassesTiles,
     ClassLineChart

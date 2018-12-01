@@ -1,21 +1,17 @@
 <template>
     <main>
-        <section class="hero is-primary is-bold">
+        <section class="hero is-info is-bold">
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Teacher dashboard
+                        Historical data
                     </h1>
                     <h2 class="subtitle">
-                        Overview and insights about the status of the learning process.
+                        Historical data reports and visualisation
                     </h2>
                 </div>
             </div>
         </section>
-
-        <!-- <section class="container">
-            <a class="button is-primary" @click="$router.push('/teacher/classes')">Classes overview</a>
-        </section> -->
 
         <section class="container stats-container">
             <div class="columns is-mobile">
@@ -76,29 +72,26 @@
 
 <script>
 import firestore from '@/services/firestore';
-import ClassesTiles from '@/components/ClassesTiles';
-import ClassLineChart from '@/components/ClassLineChart';
 
 export default {
-  layout: 'teacher',
+  layout: 'duo',
   components: {
-    ClassesTiles,
   },
   data () {
     return {
         dataItem: '',
-        classes: null,
+        schools: null,
     };
   },
   mounted() {
   },
   methods: {
-    fetchClasses() {
-        firestore.collection("classes").onSnapshot(querySnapshot => {
-            this.classes = [];
+    fetchSchools() {
+        firestore.collection("schools").onSnapshot(querySnapshot => {
+            this.schools = [];
             querySnapshot.forEach(doc => {
                 const event = doc.data();
-                this.classes.push({...event, id: doc.id});
+                this.schools.push({...event, id: doc.id});
             });
         });
     }

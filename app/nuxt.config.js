@@ -32,9 +32,7 @@ module.exports = {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-    { src: '~/plugins/youtube.js', ssr: false }
-  ],
+  plugins: [],
 
   /*
   ** Nuxt.js modules

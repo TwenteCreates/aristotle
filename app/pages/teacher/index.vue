@@ -80,7 +80,7 @@ import ClassesTiles from '@/components/ClassesTiles';
 import ClassLineChart from '@/components/ClassLineChart';
 
 export default {
-  layout: 'admin',
+  layout: 'teacher',
   components: {
     ClassesTiles,
   },

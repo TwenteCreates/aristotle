@@ -80,7 +80,7 @@
 import firestore from '@/services/firestore';
 
 export default {
-  layout: 'admin',
+  layout: 'teacher',
   data () {
     return {
         classId: '',

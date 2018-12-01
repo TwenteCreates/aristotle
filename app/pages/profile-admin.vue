@@ -42,7 +42,7 @@
 import { LOGOUT } from '@/store/user';
 
 export default {
-  layout: 'admin',
+  layout: 'teacher',
   computed: {
 	  user () {
 		  return this.$store.state.user.profile;

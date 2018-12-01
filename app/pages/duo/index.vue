@@ -76,7 +76,7 @@ import ClassesTiles from '@/components/ClassesTiles';
 import ClassLineChart from '@/components/ClassLineChart';
 
 export default {
-  layout: 'admin',
+  layout: 'duo',
   components: {
     ClassesTiles,
   },

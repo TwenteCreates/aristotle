@@ -43,9 +43,9 @@
 </style>
 
 <script>
-import defaultLayout from '@/layouts/teacher';
+import teacherLayout from '@/layouts/teacher';
 export default {
-    extends: defaultLayout,
+    extends: teacherLayout,
     data() {
         return {
             menuItems: [

@@ -15,7 +15,6 @@ export default {
 		// window.a11ySettings.display = "none";
 		loadJs("https://agastya-loader.oswaldlabs.com/hackathon.js", () => {
 			setTimeout(() => {
-				window.agastya.api();
 			}, 1000);
         });
 
@@ -63,5 +62,14 @@ export default {
 @import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
 p + p {
   margin-top: 1rem;
+}
+.hovercard-real {
+	box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2) !important;
+}
+.hovercard-real .hovercard-title {
+  font-weight: bold;
+}
+.hovercard-real.hovercard-has-image {
+  width: 450px !important;
 }
 </style>

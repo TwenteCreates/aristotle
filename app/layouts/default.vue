@@ -67,11 +67,24 @@ export default defaultLayout;
 p + p {
   margin-top: 1rem;
 }
+p {
+	line-height: 1.75;
+	font-size: 115%;
+}
+.hovercard {
+	cursor: help;
+  font-weight: bold;
+  opacity: 0.8;
+}
 .hovercard-real {
 	box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2) !important;
 }
 .hovercard-real .hovercard-title {
   font-weight: bold;
+}
+.hovercard-real .hovercard-description {
+	line-height: 1.5 !important;
+	font-size: 100% !important;
 }
 .hovercard-real.hovercard-has-image {
   width: 450px !important;

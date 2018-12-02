@@ -4,7 +4,6 @@
         <div v-for="classItem in classes" :key="classItem.id" class="column is-3">
             <div class="box" @click="$router.push(`/teacher/classes/${classItem.id}`)">
                 <h1>{{classItem.name}}</h1>
-                <!-- <h2>{{JSON.stringify(classItem.students)}}</h2> -->
             </div>
         </div>
     </div>
@@ -12,12 +11,7 @@
 
 
 <script>
-  import LineChart from '@/components/charts/LineChart.js'
-
-  export default {
-    components: {
-        LineChart
-    },
+export default {
     props: {
         classes: Array,
     },

@@ -18,9 +18,25 @@ RUN apk add --update --no-cache python3 mailcap && \
 
 COPY requirements.txt .
 
-RUN pip3 --no-cache-dir install -r requirements.txt \
-    && echo $TZ > /etc/timezone
+RUN mkdir -p /var/cache/apk \
+    && apk add --update --no-cache --virtual .build-deps \
+		gcc \
+		g++ \
+		musl-dev \
+        python3-dev \
+        linux-headers \
+        tzdata \
+	&& cp /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && pip3 --no-cache-dir install -r requirements.txt \
+    && apk --no-cache del .build-deps \
+    && rm -r /var/cache
 
 COPY . .
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN python3 manage.py collectstatic
+# && \
+#    python3 manage.py makemigrations --no-input && \
+#    python3 manage.py migrate --no-input
+
+ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]

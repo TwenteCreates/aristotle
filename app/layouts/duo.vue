@@ -21,7 +21,7 @@
 <style lang="scss" scoped>
 .vertical-nav {
 	background-color: #005ea5;
-	position: absolute;
+    position: fixed;
 	left: 0;
     top: 0;
 	bottom: 0;

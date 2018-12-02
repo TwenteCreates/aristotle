@@ -77,6 +77,16 @@
                 </div>
             </section>
         </section>
+
+        <section class="container">
+            <div class="columns">
+                <div class="column">
+                    <div class="box">
+                        <student-radar-chart :chartData="radarData" />
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 </template>
 
@@ -94,9 +104,13 @@
 
 <script>
 import firestore from '@/services/firestore';
+import StudentRadarChart from '@/components/StudentRadarChart';
 
 export default {
   layout: 'teacher',
+  components: {
+      StudentRadarChart,
+  },
   data () {
     return {
         classId: null,
@@ -113,6 +127,26 @@ export default {
     this.studentId = this.$route.params.studentId;
     this.fetchClass();
     this.fetchStudent();
+  },
+  computed: {
+      radarData() {
+          return {
+				labels: ['Reading', 'Speaking', 'Comprehending', 'Learning', 'Retention'],
+				datasets: [{
+					label: 'Skills',
+					backgroundColor: 'rgba(0,209,178,0.8)',
+					borderColor: '#00d1b2',
+					pointBackgroundColor: '#00d1b2',
+					data: [
+                        0.6,
+                        0.7,
+                        0.8,
+                        0.6,
+                        0.5
+					]
+				}]
+			}
+      }
   },
   methods: {
     fetchClass() {

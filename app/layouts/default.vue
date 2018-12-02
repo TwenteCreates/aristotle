@@ -41,6 +41,7 @@ const defaultLayout = {
 
             firestore.collection('users').doc(userProfile.uid).get().then(user => {
                 const userData = user.data();
+                // console.log(userData.creationTime === userData.lastSignInTime, userData.creationTime, userData.lastSignInTime)
                 if (userData.creationTime === userData.lastSignInTime) {
                     firestore.collection('users').doc(userProfile.uid).set({
                         points: 0

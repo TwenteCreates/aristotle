@@ -6,6 +6,7 @@ class ConceptRelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ConceptRelation
         fields = ['from_concept', 'to_concept', 'level']
+        depth = 1
 
 
 class PupilSerializer(serializers.ModelSerializer):

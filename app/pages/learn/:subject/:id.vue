@@ -93,21 +93,31 @@
 						</nuxt-link>
 						<ul class="timeline">
 							<div class="before">
-								<li class="item-completed" v-for="(item, index) in details.related" v-if="item.level === -1" :key="'kg_' + index">
+								<li class="item-completed" v-for="(item, index) in details.relatedItems['i_m1']" :key="'kg_' + index">
 									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
 										<i class="fas fa-fw fa-circle"></i>
 										{{item.from_concept.name}}
 									</nuxt-link>
 								</li>
 							</div>
-							<li class="item-current">
-								<nuxt-link :to="`/learn/4/${details.id}`">
-									<i class="fas fa-fw fa-circle"></i>
-									{{details.name}}
-								</nuxt-link>
-							</li>
+							<div class="present">
+								<span v-for="(item, index) in details.relatedItems['i_0']" :key="'kg_' + index">
+									<li class="item-current" v-if="true">
+										<nuxt-link :to="`/learn/4/${details.id}`">
+											<i class="fas fa-fw fa-circle"></i>
+											{{details.name}}
+										</nuxt-link>
+									</li>
+									<li class="item-future">
+										<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+											<i class="far fa-fw fa-circle"></i>
+											{{item.from_concept.name}}
+										</nuxt-link>
+									</li>
+								</span>
+							</div>
 							<div class="after">
-								<li class="item-future" v-for="(item, index) in details.related" v-if="item.level === 1" :key="'kg_' + index">
+								<li class="item-future" v-for="(item, index) in details.relatedItems['i_1']" :key="'kg_' + index">
 									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
 										<i class="far fa-fw fa-circle"></i>
 										{{item.from_concept.name}}
@@ -180,7 +190,12 @@ export default {
 			],
 			tries: 0,
 			details: {
-				related: {}
+				related: {},
+				relatedItems: {
+					i_m1: [],
+					i_0: [],
+					i_1: []
+				}
 			},
 			chatting: false,
 			progressPercent: 0,
@@ -248,6 +263,16 @@ export default {
 			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.$route.params.id)
 				.then(data => {
 					this.details = data.data.results[0];
+					this.details.relatedItems = {
+						i_m1: [],
+						i_0: [],
+						i_1: []
+					};
+					for (let i = 0; i < this.details.related.length; i++) {
+						if (this.details.related[i].level === -1) this.details.relatedItems.i_m1.push(this.details.related[i]);
+						if (this.details.related[i].level === 1) this.details.relatedItems.i_1.push(this.details.related[i]);
+						if (this.details.related[i].level === 0) this.details.relatedItems.i_0.push(this.details.related[i]);
+					}
 					this.loading = false;
 					setTimeout(() => {
 						["gehele getallen", "optellen", "factor", "concreet", "voorwaarde", "vermenigvuldiging", "automatiseringsprobleem", "beheersen", "toegepast", "de som", "irrationele getallen", "complexe getallen", "breuken", "inverse", "Grensvlak", "Aardkorst", "Atmosfeer", "provincies", "bestuurslaag", "inwoners", "oppervlakte", "Vulcanus", "lava", "krater", "gas", "natuurramp", "lava", "aardkorst", "natuurramp", "hypocentrum", "breuklijnen", "aardplaten", "magma", "archeologen", "Lage Landen", "Julius Ceasar", "De Bello Gallico", "prehistorie", "protohistorie", "Egypte", "Soemerië", "bronstijd ", "ijzertijd", "mammoeten", "gereedschap", "Vlaanderen ", "graf", "Nederland", "moerassen", "reus", "dinosauriërs", "Grieken", "Romeinen", "Cultuur", "schrift", "prehistorie", "middeleeuwen", "oudheid", "Na christus", "Romeinese Rijk", "Amerika", "Boekdrukkunst", "volksverhuizingen"].forEach(importantTerms => {
@@ -542,33 +567,44 @@ audio {
 .timeline {
 	overflow-x: hidden;
 }
-.after {
-	width: 155%;
-	.item-future {
+.after, .before, .present {
+	width: 600px;
+	margin-left: -150px;
+	.item-future, .item-completed, .item-current {
 		display: inline-block;
 		a {
 			padding-right: 0;
 		}
 	}
+	&::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background-image: linear-gradient(to right, #fff, transparent);
+		z-index: 3;
+		pointer-events: none;
+		width: 5rem;
+	}
 	&::after {
 		content: "";
 		position: absolute;
 		right: 0;
+		pointer-events: none;
 		top: 0;
 		bottom: 0;
 		background-image: linear-gradient(to right, transparent, #fff);
 		z-index: 3;
-		width: 10rem;
+		width: 5rem;
 	}
 }
 .timeline {
+	text-align: center;
 	position: relative;
 	i {
 		position: relative;
 		z-index: 1;
 	}
-}
-.item-current {
-	text-align: center;
 }
 </style>

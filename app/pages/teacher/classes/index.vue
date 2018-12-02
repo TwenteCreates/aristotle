@@ -4,7 +4,7 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Classes overview
+                        Classes Overview
                     </h1>
                     <h2 class="subtitle">
                         An overview of all the classes assigned to you.
@@ -12,21 +12,21 @@
                 </div>
             </div>
         </section>
-        <section class="container">
+        <!-- <section class="container">
             <div class="column is-12 chart-wrapper box">
                 <class-line-chart :chartData="getClassChartData" />
             </div>
-        </section>
+        </section> -->
 
-        <section class="container">
-            <h1 class="title">Classes</h1>
+        <section class="container classes-container">
+            <!-- <h1 class="title">Classes</h1> -->
             <classes-tiles :classes="classes" />
         </section>
     </main>
 </template>
 
 <style scoped>
-.chart-wrapper {
+.chart-wrapper, .classes-container {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
 }
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     fetchClasses() {
-        firestore.collection("classes").onSnapshot(querySnapshot => {
+        firestore.collection("classes").orderBy('name').onSnapshot(querySnapshot => {
             this.classes = [];
             querySnapshot.forEach(doc => {
                 const classData = doc.data();

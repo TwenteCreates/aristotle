@@ -19,8 +19,14 @@
                     }]
                 },
                 legend: {
-                    display: false
+                    display: true,
+                    position: 'bottom',
                 },
+                title: {
+                    display: true,
+                    fontSize: '18',
+					text: 'Class points and questions solved - last 5 days'
+				},
                 responsive: true,
                 maintainAspectRatio: false,
             }

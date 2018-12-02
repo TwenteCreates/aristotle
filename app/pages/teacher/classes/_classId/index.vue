@@ -13,7 +13,12 @@
             </div>
         </section>
         <section class="container stats-container">
-            <div class="box">
+            <div class="columns">
+                <div class="column">
+                    <div class="box">
+                        <class-line-chart :chartData="getClassChartData" />
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -78,9 +83,14 @@
 
 <script>
 import firestore from '@/services/firestore';
+import ClassLineChart from '@/components/ClassLineChart';
+
 
 export default {
   layout: 'teacher',
+  components: {
+    ClassLineChart
+  },
   data () {
     return {
         classId: '',
@@ -91,6 +101,31 @@ export default {
   mounted() {
     this.classId = this.$route.params.classId
     this.fetchClass();
+  },
+  computed: {
+    getClassChartData() {
+        return {
+            labels: [
+                'Wednesday, 28 Nov 2018',
+                'Thursday, 29 Nov 2018',
+                'Friday, 30 Nov 2018',
+                'Saturday, 1 Dec 2018',
+                'Sunday, 2 Dec 2018'
+            ],
+            datasets: [
+                {
+                    label: 'Cummulative points',
+                    backgroundColor: '#209cee',
+                    data: [24, 25, 16, 13, 8],
+                },
+                {
+                    label: 'Quests attempted',
+                    backgroundColor: '#00d1b2',
+                    data: [38, 33, 39, 24, 13],
+                }
+            ]
+        }
+    }
   },
   methods: {
       fetchClass() {

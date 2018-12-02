@@ -32,6 +32,9 @@
 					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'desaturate')`)">
 						Desaturate
 					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="a11y">
+						Accessibility
+					</button>
 				</div>
 				<div key="profile" style="text-align: center" class="insides" v-if="activeNav === 'profile'">
 					<img style="width: 30%; margin: 1rem 0; border-radius: 100%" :src="user.photoURL"/>
@@ -228,6 +231,9 @@ export default {
 			});
 	},
 	methods: {
+		a11y() {
+			document.querySelector("#agastyabutton").click();
+		},
 		sendMessage() {
 			this.chatMessages.push({
 				from: "user",

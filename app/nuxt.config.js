@@ -8,6 +8,7 @@ module.exports = {
   */
   head: {
     title: 'Artistotle',
+    htmlAttrs: {lang: 'nl'},
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -77,6 +78,6 @@ module.exports = {
         name: 'Aristotle - Your personal tutor',
         short_name: 'Aristotle',
         background_color: "#fff",
-        lang: 'en'
+        lang: 'nl'
     }
 }

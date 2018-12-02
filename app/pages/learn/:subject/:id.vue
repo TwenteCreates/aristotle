@@ -212,11 +212,7 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.user && this.user.uid) {
-			firestore.collection("users").doc(this.user.uid).get().then(doc => {
-				this.points = doc.data().points;
-			});
-		}
+        this.fetchPoints();
 		this.setup();
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {
@@ -229,6 +225,7 @@ export default {
     },
 	methods: {
         fetchPoints() {
+            if (!this.user.uid) return this.$router.push('/');
             firestore.collection("users").doc(this.user.uid).get().then(doc => {
                 this.points = doc.data().points;
             });

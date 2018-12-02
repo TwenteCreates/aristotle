@@ -36,7 +36,7 @@ const defaultLayout = {
                 email: userProfile.email,
                 photoUrl: userProfile.photoURL,
                 role: 'student',
-            points: 10
+                points: 0
             }, { merge: true });
         } else {
             this.$router.push("/login");
@@ -88,11 +88,5 @@ p {
 }
 .hovercard-element.hovercard-has-image {
   width: 450px !important;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 </style>

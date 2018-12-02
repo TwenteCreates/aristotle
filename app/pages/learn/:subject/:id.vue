@@ -147,10 +147,8 @@ export default {
 		}
 	},
 	mounted() {
-		firestore.collection("users").doc(this.user.uid).get().then(doc => {
-           this.points = doc.data().points;
-        });
-		this.setup();
+        this.setup();
+        // this.fetchPoints();
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {
 				for (let i = 0; i < data.data.results.length; i++) {
@@ -158,9 +156,14 @@ export default {
 					this.mathOptions['c_' + data.data.results[i].category].push(data.data.results[i]);
 				}
 				this.$forceUpdate();
-			});
-	},
+            });
+    },
 	methods: {
+        fetchPoints() {
+            firestore.collection("users").doc(this.user.uid).get().then(doc => {
+                this.points = doc.data().points;
+            });
+        },
 		sendMessage() {
 			this.chatMessages.push({
 				from: "user",

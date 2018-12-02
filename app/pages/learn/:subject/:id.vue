@@ -11,11 +11,34 @@
 				<button :class="`${activeNav === 'chat' ? 'active' : ''}`" @click="activeNav = 'chat'">
 					<i class="fas fa-comments"></i>
 				</button>
+				<button :class="`${activeNav === 'profile' ? 'active' : ''}`" @click="activeNav = 'profile'">
+					<i class="fas fa-user"></i>
+				</button>
 				<button :class="`${activeNav === 'settings' ? 'active' : ''}`" @click="activeNav = 'settings'">
 					<i class="fas fa-cogs"></i>
 				</button>
 			</div>
 			<div name="fade">
+				<div key="settings" class="insides" v-if="activeNav === 'settings'">
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'dyslexia')`)">
+						Dyslexia mode
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'blueFilter')`)">
+						Blue light filter
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'night')`)">
+						Night mode
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'desaturate')`)">
+						Desaturate
+					</button>
+				</div>
+				<div key="profile" style="text-align: center" class="insides" v-if="activeNav === 'profile'">
+					<img style="width: 30%; margin: 1rem 0; border-radius: 100%" :src="user.photoURL"/>
+					<div class="subtitle" style="margin-bottom: 0.6rem">{{user.displayName}}</div>
+					<div class="subtitle" style="font-size: 100%; opacity: 0.6">{{user.email}}</div>
+					<button class="button is-primary" @click="logout">Log out</button>
+				</div>
 				<div key="chat" class="insides" v-if="activeNav === 'chat'">
 					<div class="messages">
 						<div :class="`message-single from-${item.from}`" v-for="(item, index) in chatMessages" :key="'m_' + index">
@@ -68,6 +91,40 @@
 							<i class="fas fa-fw fa-landmark"></i>
 							Geschiedenis
 						</nuxt-link>
+						<ul class="timeline">
+							<div class="before">
+								<li class="item-completed" v-for="(item, index) in details.relatedItems['i_m1']" :key="'kg_' + index">
+									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+										<i class="fas fa-fw fa-circle"></i>
+										{{item.from_concept.name}}
+									</nuxt-link>
+								</li>
+							</div>
+							<div class="present">
+								<span v-for="(item, index) in details.relatedItems['i_0']" :key="'kg_' + index">
+									<li class="item-current" v-if="true">
+										<nuxt-link :to="`/learn/4/${details.id}`">
+											<i class="fas fa-fw fa-circle"></i>
+											{{details.name}}
+										</nuxt-link>
+									</li>
+									<li class="item-future">
+										<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+											<i class="far fa-fw fa-circle"></i>
+											{{item.from_concept.name}}
+										</nuxt-link>
+									</li>
+								</span>
+							</div>
+							<div class="after">
+								<li class="item-future" v-for="(item, index) in details.relatedItems['i_1']" :key="'kg_' + index">
+									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+										<i class="far fa-fw fa-circle"></i>
+										{{item.from_concept.name}}
+									</nuxt-link>
+								</li>
+							</div>
+						</ul>
 						<ul>
 							<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
 						</ul>
@@ -112,6 +169,7 @@
 <script>
 import Hovercard from "hovercard";
 import marked from "marked";
+import { LOGOUT } from '@/store/user';
 import "@/node_modules/hovercard/build/index.css";
 import firestore from "@/services/firestore";
 export default {
@@ -122,16 +180,23 @@ export default {
 			points: 0,
 			chatMessages: [
 				{
-					text: "Hello! 👋",
+					text: "Hallo! 👋",
 					from: "bot"
 				},
 				{
-					text: "How can I help?",
+					text: "Hoe kan ik helpen?",
 					from: "bot"
 				}
 			],
 			tries: 0,
-			details: {},
+			details: {
+				related: {},
+				relatedItems: {
+					i_m1: [],
+					i_0: [],
+					i_1: []
+				}
+			},
 			chatting: false,
 			progressPercent: 0,
 			message: "",
@@ -147,8 +212,12 @@ export default {
 		}
 	},
 	mounted() {
-        this.setup();
-        // this.fetchPoints();
+		if (this.user && this.user.uid) {
+			firestore.collection("users").doc(this.user.uid).get().then(doc => {
+				this.points = doc.data().points;
+			});
+		}
+		this.setup();
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {
 				for (let i = 0; i < data.data.results.length; i++) {
@@ -169,7 +238,7 @@ export default {
 				from: "user",
 				text: this.message
 			});
-			this.$axios.get("https://api.dialogflow.com/v1/query?v=20150910&lang=en&sessionId=24978328e&query=" + encodeURIComponent(this.message), {
+			this.$axios.get("https://api.dialogflow.com/v1/query?v=20150910&lang=nl&sessionId=24978328e&query=" + encodeURIComponent(this.message), {
 					headers: {
 						Authorization: "Bearer 5008c94ea2954924818204e3791ba416"
 					}
@@ -191,11 +260,24 @@ export default {
 		encode(text) {
 			return encodeURIComponent(text);
 		},
+		logout() {
+			this.$store.dispatch(LOGOUT);
+		},
 		setup() {
 			this.loading = true;
 			this.$axios.get("https://hackathon.anandchowdhary.com/concepts/?id=" + this.$route.params.id)
 				.then(data => {
 					this.details = data.data.results[0];
+					this.details.relatedItems = {
+						i_m1: [],
+						i_0: [],
+						i_1: []
+					};
+					for (let i = 0; i < this.details.related.length; i++) {
+						if (this.details.related[i].level === -1) this.details.relatedItems.i_m1.push(this.details.related[i]);
+						if (this.details.related[i].level === 1) this.details.relatedItems.i_1.push(this.details.related[i]);
+						if (this.details.related[i].level === 0) this.details.relatedItems.i_0.push(this.details.related[i]);
+					}
 					this.loading = false;
 					setTimeout(() => {
 						["gehele getallen", "optellen", "factor", "concreet", "voorwaarde", "vermenigvuldiging", "automatiseringsprobleem", "beheersen", "toegepast", "de som", "irrationele getallen", "complexe getallen", "breuken", "inverse", "Grensvlak", "Aardkorst", "Atmosfeer", "provincies", "bestuurslaag", "inwoners", "oppervlakte", "Vulcanus", "lava", "krater", "gas", "natuurramp", "lava", "aardkorst", "natuurramp", "hypocentrum", "breuklijnen", "aardplaten", "magma", "archeologen", "Lage Landen", "Julius Ceasar", "De Bello Gallico", "prehistorie", "protohistorie", "Egypte", "Soemerië", "bronstijd ", "ijzertijd", "mammoeten", "gereedschap", "Vlaanderen ", "graf", "Nederland", "moerassen", "reus", "dinosauriërs", "Grieken", "Romeinen", "Cultuur", "schrift", "prehistorie", "middeleeuwen", "oudheid", "Na christus", "Romeinese Rijk", "Amerika", "Boekdrukkunst", "volksverhuizingen"].forEach(importantTerms => {
@@ -217,6 +299,9 @@ export default {
 				this.progressPercent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
 			}
 		},
+		eDo(script) {
+			eval(script);
+		},
 		nextTopic() {
 			const path = this.$route.path;
 			this.$router.push("/learn/" + this.$route.params.subject + "/" + (parseInt(this.$route.params.id) + 1));
@@ -236,9 +321,11 @@ export default {
 			if (this.tries === 2) givePoints = 10;
 			if (this.tries >= 3) givePoints = 0;
 			const newPoints = this.points + givePoints;
-			firestore.collection("users").doc(this.user.uid).update({
-				points: newPoints
-			});
+			if (this.user && this.user.uid) {
+				firestore.collection("users").doc(this.user.uid).update({
+					points: newPoints
+				});
+			}
 			setTimeout(() => {
 				const interval = setInterval(() => {
 					if (newPoints === this.points) {
@@ -473,6 +560,56 @@ audio {
 			border: 1px solid #ddd;
 			width: 100%;
 		}
+	}
+}
+.button.is-secondary.is-fullwidth +
+.button.is-secondary.is-fullwidth {
+	margin-top: 1rem;
+}
+.item-completed {
+	color: #aaa;
+}
+.timeline {
+	overflow-x: hidden;
+}
+.after, .before, .present {
+	width: 600px;
+	margin-left: -150px;
+	.item-future, .item-completed, .item-current {
+		display: inline-block;
+		a {
+			padding-right: 0;
+		}
+	}
+	&::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background-image: linear-gradient(to right, #fff, transparent);
+		z-index: 3;
+		pointer-events: none;
+		width: 5rem;
+	}
+	&::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		pointer-events: none;
+		top: 0;
+		bottom: 0;
+		background-image: linear-gradient(to right, transparent, #fff);
+		z-index: 3;
+		width: 5rem;
+	}
+}
+.timeline {
+	text-align: center;
+	position: relative;
+	i {
+		position: relative;
+		z-index: 1;
 	}
 }
 </style>

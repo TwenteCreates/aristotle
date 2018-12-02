@@ -36,7 +36,7 @@ const defaultLayout = {
                 email: userProfile.email,
                 photoUrl: userProfile.photoURL,
                 role: 'student',
-            points: 0
+            points: 10
             }, { merge: true });
         } else {
             this.$router.push("/login");
@@ -90,7 +90,7 @@ p {
   width: 450px !important;
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity .2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;

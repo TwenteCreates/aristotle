@@ -15,7 +15,7 @@
 					<i class="fas fa-cogs"></i>
 				</button>
 			</div>
-			<transition-group name="fade">
+			<div name="fade">
 				<div key="chat" class="insides" v-if="activeNav === 'chat'">
 					<div class="messages">
 						<div :class="`message-single from-${item.from}`" v-for="(item, index) in chatMessages" :key="'m_' + index">
@@ -73,7 +73,7 @@
 						</ul>
 					</li>
 				</ul>
-			</transition-group>
+			</div>
 		</aside>
 		<nav :class="`${increasing ? 'is-increasing' : ''}`">
 			🏆
@@ -113,6 +113,7 @@
 import Hovercard from "hovercard";
 import marked from "marked";
 import "@/node_modules/hovercard/build/index.css";
+import firestore from "@/services/firestore";
 export default {
 	data() {
 		return {
@@ -129,7 +130,6 @@ export default {
 				}
 			],
 			tries: 0,
-			points: 42,
 			details: {},
 			chatting: false,
 			progressPercent: 0,
@@ -143,6 +143,9 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.user.profile;
+		},
+		points() {
+			return this.$store.state.user.profile.points;
 		}
 	},
 	mounted() {
@@ -229,6 +232,9 @@ export default {
 			if (this.tries === 2) givePoints = 10;
 			if (this.tries >= 3) givePoints = 0;
 			const newPoints = this.points + givePoints;
+			firestore.collection("users").doc(this.user.uid).update({
+				points: newPoints
+			});
 			setTimeout(() => {
 				const interval = setInterval(() => {
 					if (newPoints === this.points) {

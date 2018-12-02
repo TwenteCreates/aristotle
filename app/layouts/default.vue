@@ -35,7 +35,7 @@ const defaultLayout = {
                 email: userProfile.email,
                 photoUrl: userProfile.photoURL,
                 role: 'student',
-            points: 10
+                points: 0
             }, { merge: true });
         } else {
             this.$router.push("/login");

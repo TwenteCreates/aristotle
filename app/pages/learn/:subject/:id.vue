@@ -162,7 +162,24 @@ export default {
 				from: "user",
 				text: this.message
 			});
+			this.$axios.get("https://api.dialogflow.com/v1/query?v=20150910&lang=en&sessionId=24978328e&query=" + encodeURIComponent(this.message), {
+					headers: {
+						Authorization: "Bearer 5008c94ea2954924818204e3791ba416"
+					}
+				}).then(response => {
+					this.typing = false;
+					this.chatMessages.push({
+						text: response.data.result.fulfillment.messages[0].speech,
+						from: "bot"
+					});
+					setTimeout(() => {
+						document.querySelector(".messages").scrollTo(0, document.querySelector(".messages").scrollHeight);
+					}, 5);
+				});
 			this.message = "";
+			setTimeout(() => {
+				document.querySelector(".messages").scrollTo(0, document.querySelector(".messages").scrollHeight);
+			}, 5);
 		},
 		encode(text) {
 			return encodeURIComponent(text);
@@ -415,9 +432,11 @@ audio {
 	margin-left: 70px;
 	padding: 1rem;
 	.messages {
+		max-height: 90vh;
+		overflow-y: auto;
 		.message-single {
 			display: flex;
-			margin-bottom: 0.5rem;
+			margin-bottom: 1rem;
 			.message-content {
 				background-color: #fff;
 				padding: 0.65rem 1rem;

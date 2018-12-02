@@ -4,7 +4,7 @@
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title">
-                        Historical data
+                        Historical Data
                     </h1>
                     <h2 class="subtitle">
                         Historical data reports and visualisation

@@ -262,7 +262,7 @@ export default {
 					}, 1);
 				});
 			window.onscroll = val => {
-				let h = document.documentElement, 
+				let h = document.documentElement,
 				b = document.body,
 				st = "scrollTop",
 				sh = "scrollHeight";

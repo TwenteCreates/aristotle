@@ -2,58 +2,125 @@
 	<main>
 		<aside>
 			<div class="vertical-nav">
-				<nuxt-link to="/"><i class="fas fa-chart-line"></i></nuxt-link>
-				<nuxt-link to="/learn/wiskunde/1" class="active"><i class="fas fa-book-reader"></i></nuxt-link>
-				<a @click.prevent="chatting = !chatting" to="/chat"><i class="fas fa-comments"></i></a>
-				<nuxt-link to="/settings"><i class="fas fa-cogs"></i></nuxt-link>
+				<button :class="`${activeNav === 'graphs' ? 'active' : ''}`" @click="activeNav = 'graphs'">
+					<i class="fas fa-chart-line"></i>
+				</button>
+				<button :class="`${activeNav === 'nav' ? 'active' : ''}`" @click="activeNav = 'nav'">
+					<i class="fas fa-book-reader"></i>
+				</button>
+				<button :class="`${activeNav === 'chat' ? 'active' : ''}`" @click="activeNav = 'chat'">
+					<i class="fas fa-comments"></i>
+				</button>
+				<button :class="`${activeNav === 'profile' ? 'active' : ''}`" @click="activeNav = 'profile'">
+					<i class="fas fa-user"></i>
+				</button>
+				<button :class="`${activeNav === 'settings' ? 'active' : ''}`" @click="activeNav = 'settings'">
+					<i class="fas fa-cogs"></i>
+				</button>
 			</div>
-			<ul>
-				<li>
-					<nuxt-link to="/learn/0">
-						<i class="fas fa-fw fa-font"></i>
-						Nederlands
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_0" :key="'nederlands_' + index"><nuxt-link :to="`/learn/0/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/1">
-						<i class="fas fa-fw fa-font"></i>
-						Engels
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_1" :key="'engels_' + index"><nuxt-link :to="`/learn/1/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/2">
-						<i class="fas fa-fw fa-calculator"></i>
-						Wiskunde
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_2" :key="'wiskunde_' + index"><nuxt-link :to="`/learn/2/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/3">
-						<i class="fas fa-fw fa-globe-africa"></i>
-						Aardrijkskunde
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_3" :key="'aardrijkskunde_' + index"><nuxt-link :to="`/learn/3/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/4">
-						<i class="fas fa-fw fa-landmark"></i>
-						Geschiedenis
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-			</ul>
+			<div name="fade">
+				<div key="settings" class="insides" v-if="activeNav === 'settings'">
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'dyslexia')`)">
+						Dyslexia mode
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'blueFilter')`)">
+						Blue light filter
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'night')`)">
+						Night mode
+					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'desaturate')`)">
+						Desaturate
+					</button>
+				</div>
+				<div key="profile" style="text-align: center" class="insides" v-if="activeNav === 'profile'">
+					<img style="width: 30%; margin: 1rem 0; border-radius: 100%" :src="user.photoURL"/>
+					<div class="subtitle" style="margin-bottom: 0.6rem">{{user.displayName}}</div>
+					<div class="subtitle" style="font-size: 100%; opacity: 0.6">{{user.email}}</div>
+					<button class="button is-primary" @click="logout">Log out</button>
+				</div>
+				<div key="chat" class="insides" v-if="activeNav === 'chat'">
+					<div class="messages">
+						<div :class="`message-single from-${item.from}`" v-for="(item, index) in chatMessages" :key="'m_' + index">
+							<div class="message-content">{{item.text}}</div>
+						</div>
+					</div>
+					<form @submit.prevent="sendMessage">
+						<input type="text" v-model="message" placeholder="Enter your message">
+					</form>
+				</div>
+				<ul key="nav" v-if="activeNav === 'nav'">
+					<li>
+						<nuxt-link to="/learn/0">
+							<i class="fas fa-fw fa-font"></i>
+							Nederlands
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_0" :key="'nederlands_' + index"><nuxt-link :to="`/learn/0/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/1">
+							<i class="fas fa-fw fa-font"></i>
+							Engels
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_1" :key="'engels_' + index"><nuxt-link :to="`/learn/1/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/2">
+							<i class="fas fa-fw fa-calculator"></i>
+							Wiskunde
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_2" :key="'wiskunde_' + index"><nuxt-link :to="`/learn/2/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/3">
+							<i class="fas fa-fw fa-globe-africa"></i>
+							Aardrijkskunde
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_3" :key="'aardrijkskunde_' + index"><nuxt-link :to="`/learn/3/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/4">
+							<i class="fas fa-fw fa-landmark"></i>
+							Geschiedenis
+						</nuxt-link>
+						<ul class="timeline">
+							<div class="before">
+								<li class="item-completed" v-for="(item, index) in details.related" v-if="item.level === -1" :key="'kg_' + index">
+									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+										<i class="fas fa-fw fa-circle"></i>
+										{{item.from_concept.name}}
+									</nuxt-link>
+								</li>
+							</div>
+							<li class="item-current">
+								<nuxt-link :to="`/learn/4/${details.id}`">
+									<i class="fas fa-fw fa-circle"></i>
+									{{details.name}}
+								</nuxt-link>
+							</li>
+							<div class="after">
+								<li class="item-future" v-for="(item, index) in details.related" v-if="item.level === 1" :key="'kg_' + index">
+									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
+										<i class="far fa-fw fa-circle"></i>
+										{{item.from_concept.name}}
+									</nuxt-link>
+								</li>
+							</div>
+						</ul>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</aside>
 		<nav :class="`${increasing ? 'is-increasing' : ''}`">
 			🏆
@@ -92,16 +159,32 @@
 <script>
 import Hovercard from "hovercard";
 import marked from "marked";
+import { LOGOUT } from '@/store/user';
 import "@/node_modules/hovercard/build/index.css";
+import firestore from "@/services/firestore";
 export default {
 	data() {
 		return {
+			activeNav: "nav",
 			loading: true,
+			points: 0,
+			chatMessages: [
+				{
+					text: "Hallo! 👋",
+					from: "bot"
+				},
+				{
+					text: "Hoe kan ik helpen?",
+					from: "bot"
+				}
+			],
 			tries: 0,
-			points: 42,
-			details: {},
+			details: {
+				related: {}
+			},
 			chatting: false,
 			progressPercent: 0,
+			message: "",
 			isCorrect: false,
 			increasing: false,
 			isHidden: false,
@@ -114,6 +197,11 @@ export default {
 		}
 	},
 	mounted() {
+		if (this.user && this.user.uid) {
+			firestore.collection("users").doc(this.user.uid).get().then(doc => {
+				this.points = doc.data().points;
+			});
+		}
 		this.setup();
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {
@@ -125,8 +213,35 @@ export default {
 			});
 	},
 	methods: {
+		sendMessage() {
+			this.chatMessages.push({
+				from: "user",
+				text: this.message
+			});
+			this.$axios.get("https://api.dialogflow.com/v1/query?v=20150910&lang=nl&sessionId=24978328e&query=" + encodeURIComponent(this.message), {
+					headers: {
+						Authorization: "Bearer 5008c94ea2954924818204e3791ba416"
+					}
+				}).then(response => {
+					this.typing = false;
+					this.chatMessages.push({
+						text: response.data.result.fulfillment.messages[0].speech,
+						from: "bot"
+					});
+					setTimeout(() => {
+						document.querySelector(".messages").scrollTo(0, document.querySelector(".messages").scrollHeight);
+					}, 5);
+				});
+			this.message = "";
+			setTimeout(() => {
+				document.querySelector(".messages").scrollTo(0, document.querySelector(".messages").scrollHeight);
+			}, 5);
+		},
 		encode(text) {
 			return encodeURIComponent(text);
+		},
+		logout() {
+			this.$store.dispatch(LOGOUT);
 		},
 		setup() {
 			this.loading = true;
@@ -147,12 +262,15 @@ export default {
 					}, 1);
 				});
 			window.onscroll = val => {
-				let h = document.documentElement, 
+				let h = document.documentElement,
 				b = document.body,
 				st = "scrollTop",
 				sh = "scrollHeight";
 				this.progressPercent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
 			}
+		},
+		eDo(script) {
+			eval(script);
 		},
 		nextTopic() {
 			const path = this.$route.path;
@@ -173,6 +291,11 @@ export default {
 			if (this.tries === 2) givePoints = 10;
 			if (this.tries >= 3) givePoints = 0;
 			const newPoints = this.points + givePoints;
+			if (this.user && this.user.uid) {
+				firestore.collection("users").doc(this.user.uid).update({
+					points: newPoints
+				});
+			}
 			setTimeout(() => {
 				const interval = setInterval(() => {
 					if (newPoints === this.points) {
@@ -207,7 +330,7 @@ export default {
 }
 .progress {
 	position: fixed;
-	left: 300px; right: 0;
+	left: 400px; right: 0;
 	top: 0;
 	height: 0.25rem;
 	background-color: whitesmoke;
@@ -222,7 +345,7 @@ export default {
 aside {
 	position: fixed;
 	background-color: whitesmoke;
-	width: 300px;
+	width: 400px;
 	top: 0; bottom: 0;
 	left: 0;
 }
@@ -246,7 +369,7 @@ nav {
 	position: absolute;
 	left: 50%;
 	padding: 5rem 0;
-	margin-left: -235px;
+	margin-left: -175px;
 }
 h1 {
 	font-family: "Lora";
@@ -257,6 +380,7 @@ iframe {
 	width: 100%;
 	border: 0;
 	margin: 2rem 0;
+	z-index: 19;
 	height: 390px;
 }
 p + .card {
@@ -303,7 +427,9 @@ p + .card {
 	position: absolute;
 	left: 0; top: 0;
 	bottom: 0;
-	a {
+	a, button {
+		background: none;
+		border: 0;
 		display: block;
 		width: 70px;
 		height: 70px;
@@ -311,6 +437,10 @@ p + .card {
 		color: rgba(0, 0, 0, 0.5);
 		font-size: 24px;
 		text-align: center;
+		&:focus {
+			outline: 0; // Don't ever do
+			// This is only to record a screen video
+		}
 		&.active {
 			background-color: whitesmoke;
 		}
@@ -331,9 +461,10 @@ aside ul {
 			}
 			&.nuxt-link-active + ul {
 				display: block;
-				padding-bottom: 1rem;
+				padding-bottom: 1px;
 				li a {
 					padding: 0 1rem;
+					margin-bottom: 1rem;
 					&.nuxt-link-exact-active {
 						font-weight: bold;
 					}
@@ -363,5 +494,81 @@ audio {
 	float: left;
 	margin-right: 2rem;
 	margin-bottom: 1rem;
+}
+.insides {
+	margin-left: 70px;
+	padding: 1rem;
+	.messages {
+		max-height: 90vh;
+		overflow-y: auto;
+		.message-single {
+			display: flex;
+			margin-bottom: 1rem;
+			.message-content {
+				background-color: #fff;
+				padding: 0.65rem 1rem;
+				border-radius: 2rem;
+			}
+			&.from-user {
+				justify-content: flex-end;
+				.message-content {
+					background-color: #3498db;
+					color: #fff;
+				}
+			}
+		}
+	}
+	form {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+		left: calc(70px + 1rem);
+		input {
+			font: inherit;
+			padding: 0.5rem 1rem;
+			border-radius: 0.25rem;
+			border: 1px solid #ddd;
+			width: 100%;
+		}
+	}
+}
+.button.is-secondary.is-fullwidth +
+.button.is-secondary.is-fullwidth {
+	margin-top: 1rem;
+}
+.item-completed {
+	color: #aaa;
+}
+.timeline {
+	overflow-x: hidden;
+}
+.after {
+	width: 155%;
+	.item-future {
+		display: inline-block;
+		a {
+			padding-right: 0;
+		}
+	}
+	&::after {
+		content: "";
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-image: linear-gradient(to right, transparent, #fff);
+		z-index: 3;
+		width: 10rem;
+	}
+}
+.timeline {
+	position: relative;
+	i {
+		position: relative;
+		z-index: 1;
+	}
+}
+.item-current {
+	text-align: center;
 }
 </style>

@@ -119,6 +119,7 @@ export default {
 		return {
 			activeNav: "nav",
 			loading: true,
+			points: 0,
 			chatMessages: [
 				{
 					text: "Hello! 👋",
@@ -143,12 +144,12 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.user.profile;
-		},
-		points() {
-			return this.$store.state.user.profile.points;
 		}
 	},
 	mounted() {
+		firestore.collection("users").doc(this.user.uid).get().then(doc => {
+           this.points = doc.data().points;
+        });
 		this.setup();
 		this.$axios.get("https://hackathon.anandchowdhary.com/concepts")
 			.then(data => {

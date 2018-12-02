@@ -32,6 +32,9 @@
 					<button class="button is-secondary is-fullwidth is-large" @click="eDo(`window.agastya.api('cssClass', 'desaturate')`)">
 						Desaturate
 					</button>
+					<button class="button is-secondary is-fullwidth is-large" @click="a11y">
+						Accessibility
+					</button>
 				</div>
 				<div key="profile" style="text-align: center" class="insides" v-if="activeNav === 'profile'">
 					<img style="width: 30%; margin: 1rem 0; border-radius: 100%" :src="user.photoURL"/>
@@ -95,7 +98,7 @@
 							<div class="before">
 								<li class="item-completed" v-for="(item, index) in details.relatedItems['i_m1']" :key="'kg_' + index">
 									<nuxt-link :to="`/learn/4/${item.from_concept.id}`">
-										<i class="fas fa-fw fa-circle"></i>
+										<i class="fas fa-fw fa-check-circle"></i>
 										{{item.from_concept.name}}
 									</nuxt-link>
 								</li>
@@ -224,6 +227,9 @@ export default {
             });
     },
 	methods: {
+		a11y() {
+			document.querySelector("#agastyabutton").click();
+		},
         fetchPoints() {
             if (!this.user.uid) return this.$router.push('/');
             firestore.collection("users").doc(this.user.uid).get().then(doc => {
@@ -374,7 +380,13 @@ aside {
 	background-color: whitesmoke;
 	width: 400px;
 	top: 0; bottom: 0;
+	z-index: 23;
+	transition: 0.3s;
 	left: 0;
+	&:hover {
+		width: 550px;
+		box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+	}
 }
 nav {
 	background-color: whitesmoke;
@@ -564,7 +576,7 @@ audio {
 	margin-top: 1rem;
 }
 .item-completed {
-	color: #aaa;
+	color: #2ecc71;
 }
 .timeline {
 	overflow-x: hidden;

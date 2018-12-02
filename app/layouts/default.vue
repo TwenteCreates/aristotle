@@ -11,8 +11,7 @@ import loadJs from "loadjs";
 import { LOGIN_SUCCESS } from '@/store/user';
 const defaultLayout = {
   mounted() {
-      window.a11ySettings = window.a11ySettings || {};
-		// window.a11ySettings.display = "none";
+    window.a11ySettings = window.a11ySettings || {};
 		loadJs("https://agastya-loader.oswaldlabs.com/hackathon.js", () => {
 			setTimeout(() => {
 			}, 1000);
@@ -99,5 +98,14 @@ p {
 }
 .hovercard-element.hovercard-has-image {
   width: 450px !important;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+#agastyabutton {
+  display: none;
 }
 </style>

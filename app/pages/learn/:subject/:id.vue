@@ -2,58 +2,78 @@
 	<main>
 		<aside>
 			<div class="vertical-nav">
-				<nuxt-link to="/"><i class="fas fa-chart-line"></i></nuxt-link>
-				<nuxt-link to="/learn/wiskunde/1" class="active"><i class="fas fa-book-reader"></i></nuxt-link>
-				<a @click.prevent="chatting = !chatting" to="/chat"><i class="fas fa-comments"></i></a>
-				<nuxt-link to="/settings"><i class="fas fa-cogs"></i></nuxt-link>
+				<button :class="`${activeNav === 'graphs' ? 'active' : ''}`" @click="activeNav = 'graphs'">
+					<i class="fas fa-chart-line"></i>
+				</button>
+				<button :class="`${activeNav === 'nav' ? 'active' : ''}`" @click="activeNav = 'nav'">
+					<i class="fas fa-book-reader"></i>
+				</button>
+				<button :class="`${activeNav === 'chat' ? 'active' : ''}`" @click="activeNav = 'chat'">
+					<i class="fas fa-comments"></i>
+				</button>
+				<button :class="`${activeNav === 'settings' ? 'active' : ''}`" @click="activeNav = 'settings'">
+					<i class="fas fa-cogs"></i>
+				</button>
 			</div>
-			<ul>
-				<li>
-					<nuxt-link to="/learn/0">
-						<i class="fas fa-fw fa-font"></i>
-						Nederlands
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_0" :key="'nederlands_' + index"><nuxt-link :to="`/learn/0/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/1">
-						<i class="fas fa-fw fa-font"></i>
-						Engels
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_1" :key="'engels_' + index"><nuxt-link :to="`/learn/1/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/2">
-						<i class="fas fa-fw fa-calculator"></i>
-						Wiskunde
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_2" :key="'wiskunde_' + index"><nuxt-link :to="`/learn/2/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/3">
-						<i class="fas fa-fw fa-globe-africa"></i>
-						Aardrijkskunde
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_3" :key="'aardrijkskunde_' + index"><nuxt-link :to="`/learn/3/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-				<li>
-					<nuxt-link to="/learn/4">
-						<i class="fas fa-fw fa-landmark"></i>
-						Geschiedenis
-					</nuxt-link>
-					<ul>
-						<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
-					</ul>
-				</li>
-			</ul>
+			<transition-group name="fade">
+				<div key="chat" class="insides" v-if="activeNav === 'chat'">
+					<div class="messages">
+						<div :class="`message-single from-${item.from}`" v-for="(item, index) in chatMessages" :key="'m_' + index">
+							<div class="message-content">{{item.text}}</div>
+						</div>
+					</div>
+					<form @submit.prevent="sendMessage">
+						<input type="text" v-model="message" placeholder="Enter your message">
+					</form>
+				</div>
+				<ul key="nav" v-if="activeNav === 'nav'">
+					<li>
+						<nuxt-link to="/learn/0">
+							<i class="fas fa-fw fa-font"></i>
+							Nederlands
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_0" :key="'nederlands_' + index"><nuxt-link :to="`/learn/0/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/1">
+							<i class="fas fa-fw fa-font"></i>
+							Engels
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_1" :key="'engels_' + index"><nuxt-link :to="`/learn/1/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/2">
+							<i class="fas fa-fw fa-calculator"></i>
+							Wiskunde
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_2" :key="'wiskunde_' + index"><nuxt-link :to="`/learn/2/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/3">
+							<i class="fas fa-fw fa-globe-africa"></i>
+							Aardrijkskunde
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_3" :key="'aardrijkskunde_' + index"><nuxt-link :to="`/learn/3/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+					<li>
+						<nuxt-link to="/learn/4">
+							<i class="fas fa-fw fa-landmark"></i>
+							Geschiedenis
+						</nuxt-link>
+						<ul>
+							<li v-for="(item, index) in mathOptions.c_4" :key="'geschiedenis_' + index"><nuxt-link :to="`/learn/4/${item.id}`">{{item.name}}</nuxt-link></li>
+						</ul>
+					</li>
+				</ul>
+			</transition-group>
 		</aside>
 		<nav :class="`${increasing ? 'is-increasing' : ''}`">
 			🏆
@@ -96,12 +116,24 @@ import "@/node_modules/hovercard/build/index.css";
 export default {
 	data() {
 		return {
+			activeNav: "nav",
 			loading: true,
+			chatMessages: [
+				{
+					text: "Hello! 👋",
+					from: "bot"
+				},
+				{
+					text: "How can I help?",
+					from: "bot"
+				}
+			],
 			tries: 0,
 			points: 42,
 			details: {},
 			chatting: false,
 			progressPercent: 0,
+			message: "",
 			isCorrect: false,
 			increasing: false,
 			isHidden: false,
@@ -125,6 +157,13 @@ export default {
 			});
 	},
 	methods: {
+		sendMessage() {
+			this.chatMessages.push({
+				from: "user",
+				text: this.message
+			});
+			this.message = "";
+		},
 		encode(text) {
 			return encodeURIComponent(text);
 		},
@@ -207,7 +246,7 @@ export default {
 }
 .progress {
 	position: fixed;
-	left: 300px; right: 0;
+	left: 400px; right: 0;
 	top: 0;
 	height: 0.25rem;
 	background-color: whitesmoke;
@@ -222,7 +261,7 @@ export default {
 aside {
 	position: fixed;
 	background-color: whitesmoke;
-	width: 300px;
+	width: 400px;
 	top: 0; bottom: 0;
 	left: 0;
 }
@@ -246,7 +285,7 @@ nav {
 	position: absolute;
 	left: 50%;
 	padding: 5rem 0;
-	margin-left: -235px;
+	margin-left: -175px;
 }
 h1 {
 	font-family: "Lora";
@@ -257,6 +296,7 @@ iframe {
 	width: 100%;
 	border: 0;
 	margin: 2rem 0;
+	z-index: 19;
 	height: 390px;
 }
 p + .card {
@@ -303,7 +343,9 @@ p + .card {
 	position: absolute;
 	left: 0; top: 0;
 	bottom: 0;
-	a {
+	a, button {
+		background: none;
+		border: 0;
 		display: block;
 		width: 70px;
 		height: 70px;
@@ -311,6 +353,10 @@ p + .card {
 		color: rgba(0, 0, 0, 0.5);
 		font-size: 24px;
 		text-align: center;
+		&:focus {
+			outline: 0; // Don't ever do
+			// This is only to record a screen video
+		}
 		&.active {
 			background-color: whitesmoke;
 		}
@@ -331,9 +377,10 @@ aside ul {
 			}
 			&.nuxt-link-active + ul {
 				display: block;
-				padding-bottom: 1rem;
+				padding-bottom: 1px;
 				li a {
 					padding: 0 1rem;
+					margin-bottom: 1rem;
 					&.nuxt-link-exact-active {
 						font-weight: bold;
 					}
@@ -363,5 +410,40 @@ audio {
 	float: left;
 	margin-right: 2rem;
 	margin-bottom: 1rem;
+}
+.insides {
+	margin-left: 70px;
+	padding: 1rem;
+	.messages {
+		.message-single {
+			display: flex;
+			margin-bottom: 0.5rem;
+			.message-content {
+				background-color: #fff;
+				padding: 0.65rem 1rem;
+				border-radius: 2rem;
+			}
+			&.from-user {
+				justify-content: flex-end;
+				.message-content {
+					background-color: #3498db;
+					color: #fff;
+				}
+			}
+		}
+	}
+	form {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+		left: calc(70px + 1rem);
+		input {
+			font: inherit;
+			padding: 0.5rem 1rem;
+			border-radius: 0.25rem;
+			border: 1px solid #ddd;
+			width: 100%;
+		}
+	}
 }
 </style>

@@ -26,6 +26,8 @@ const defaultLayout = {
                 this.$router.push("/");
             }
 
+
+
             firestore.collection('users').doc(userProfile.uid).set({
                 createdAt: new Date(),
                 updatedAt: new Date(),
@@ -34,9 +36,19 @@ const defaultLayout = {
                 name: userProfile.displayName,
                 email: userProfile.email,
                 photoUrl: userProfile.photoURL,
-                role: 'student',
-                points: 0
+                role: 'student'
             }, { merge: true });
+
+            firestore.collection('users').doc(userProfile.uid).get().then(user => {
+                const userData = user.data();
+                // console.log(userData.creationTime === userData.lastSignInTime, userData.creationTime, userData.lastSignInTime)
+                if (userData.creationTime === userData.lastSignInTime) {
+                    firestore.collection('users').doc(userProfile.uid).set({
+                        points: 0
+                    }, { merge: true });
+                }
+            })
+
         } else {
             this.$router.push("/login");
         }

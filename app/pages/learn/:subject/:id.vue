@@ -307,14 +307,21 @@ export default {
 		},
 		nextTopic() {
 			const path = this.$route.path;
-			this.$router.push("/learn/" + this.$route.params.subject + "/" + (parseInt(this.$route.params.id) + 1));
+			this.$router.push("/learn/" + this.$route.params.subject + "/" + this.details.next);
 		},
 		marked(md) {
 			if (!md) return;
 			return marked(md);
 		},
 		wrongAnswer() {
-			alert("Try again!");
+			this.$dialog.alert({
+				title: "Fout antwoord!",
+				message: "Dit antwoord is niet goed, probeer het nog een keer.",
+				type: "is-danger",
+				hasIcon: true,
+				icon: "times-circle",
+				iconPack: "fa"
+			});
 			this.tries++;
 		},
 		checkAnswer() {

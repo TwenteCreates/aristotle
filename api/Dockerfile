@@ -41,4 +41,5 @@ RUN python3 manage.py collectstatic
 
 EXPOSE 8000
 
-ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["api"]

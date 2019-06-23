@@ -8,14 +8,14 @@
 	</main>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 main {
 	padding: 1rem;
 }
 .button {
 	margin-bottom: 1rem;
 }
-.is-disabled { 
+.is-disabled {
 	opacity: 0.5;
 }
 </style>

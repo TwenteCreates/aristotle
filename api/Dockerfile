@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.10
 
 ENV PYTHONUNBUFFERED=0
 ARG TZ=Europe/Amsterdam
@@ -38,5 +38,7 @@ RUN python3 manage.py collectstatic
 # && \
 #    python3 manage.py makemigrations --no-input && \
 #    python3 manage.py migrate --no-input
+
+EXPOSE 8000
 
 ENTRYPOINT ["uwsgi", "--ini", "uwsgi.ini"]

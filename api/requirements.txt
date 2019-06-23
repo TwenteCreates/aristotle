@@ -1,8 +1,8 @@
-django==2.1.3
-djangorestframework
+uwsgi
+requests
 markdown
+django==2.1.3
+django-url-filter
+djangorestframework
 django-crispy-forms
 django-cors-headers
-django-url-filter
-requests
-uwsgi

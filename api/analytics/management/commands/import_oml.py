@@ -19,6 +19,7 @@ def int_process(int_string):
 def float_process(float_string):
     return float(float_string) if float_string else 0
 
+
 def bool_process(bool_string):
     if bool_string == '1':
         return True
@@ -26,6 +27,7 @@ def bool_process(bool_string):
         return False
     else:
         return None
+
 
 class Command(BaseCommand):
     help = 'imports oml data csv to the pupil model'

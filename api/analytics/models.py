@@ -110,6 +110,7 @@ class Concept(models.Model):
     correct_answer = models.IntegerField()
     related = models.ManyToManyField('self', symmetrical=False, through='ConceptRelation')
     category = models.IntegerField(choices=CATEGORIES)
+    next = models.ForeignKey('self', on_delete=models.CASCADE, related_name="comes_after")
 
     def get_related_concepts(self):
         return ConceptRelation.objects.filter(to_concept=self)

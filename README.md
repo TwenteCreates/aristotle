@@ -42,6 +42,10 @@ npm run generate
 
 The [Dockerfile](/api/Dockerfile) is used by Caprover to build and deploy the app.
 
+## 👥 Contributors
+
+[![Profile pictures of contributors on GitHub](https://services.anandchowdhary.now.sh/api/github-contributors?repo=c-r-e-a-t-e/aristotle)](https://github.com/c-r-e-a-t-e/aristotle/graphs/contributors)
+
 ## 📄 License
 
 - Code: [MIT](/LICENSE)

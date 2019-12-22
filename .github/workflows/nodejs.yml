@@ -15,7 +15,7 @@ jobs:
     - name: npm install and build
       run: |
         cd app
-        npm ci
+        npm install
         npm run build
       env:
         CI: true

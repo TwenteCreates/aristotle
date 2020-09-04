@@ -20,7 +20,7 @@
     "jquery": "^3.5.0",
     "jvectormap": "^2.0.4",
     "loadjs": "^3.5.4",
-    "marked": "^0.6.1",
+    "marked": "^0.7.0",
     "nuxt": "^2.0.0",
     "nuxt-buefy": "^0.2.1",
     "vue-chartjs": "^3.4.0",

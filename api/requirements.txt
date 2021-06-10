@@ -1,7 +1,7 @@
 uwsgi
 requests
 markdown
-django==2.2.13
+django==2.2.24
 django-url-filter
 djangorestframework
 django-crispy-forms
